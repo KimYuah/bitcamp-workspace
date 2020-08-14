@@ -14,7 +14,7 @@ public class Exam0125 {
     // String s2 = b2.toString();
     // System.out.println(s1.equals(s2));
     //
-    System.out.println(b1.toString().equals(b2.toString()));
+    System.out.println(b1.toString().equals(b2.toString()));// b2의 값을 먼저 부른다.
   }
 }
 

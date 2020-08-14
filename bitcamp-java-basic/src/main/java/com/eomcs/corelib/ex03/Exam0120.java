@@ -18,7 +18,6 @@ public class Exam0120 {
 
     list.remove(0); // bbb, ddd,
     print(list);
-
     // 유효한 인덱스가 아니면 예외 발생시킨다!
     // list.remove(4); // 실행 오류!
     print(list);
@@ -40,6 +39,7 @@ public class Exam0120 {
 
     list.add("eee"); // zzz, aaa, yyy, xxx, ddd, ttt, ccc, eee
     print(list);
+
   }
 
   static void print(ArrayList list) {

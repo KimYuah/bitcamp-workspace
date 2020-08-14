@@ -1,4 +1,4 @@
-// String - String 인스터스에 있는 값을 비교하기 : equals()
+// String - String 인스턴스에 있는 값을 비교하기 : equals()
 package com.eomcs.corelib.ex02;
 
 public class Exam0120 {
