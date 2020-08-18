@@ -1,4 +1,4 @@
-package com.yuah.prts;
+package com.yuah.prts.linkedlist;
 
 
 public class MyLinkedListTest {

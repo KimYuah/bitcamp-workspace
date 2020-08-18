@@ -29,7 +29,7 @@ public class Exam0110 {
     System.out.println(map.get("s03"));
     System.out.println(map.get("s04"));
 
-    // 존재하지 않는 key를 지정하면 null을 리턴한다. 
+    // 존재하지 않는 key를 지정하면 null을 리턴한다.
     System.out.println(map.get("s05"));
   }
 

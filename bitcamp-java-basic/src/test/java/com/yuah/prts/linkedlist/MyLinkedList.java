@@ -1,4 +1,4 @@
-package com.yuah.prts;
+package com.yuah.prts.linkedlist;
 
 public class MyLinkedList {
 
@@ -132,6 +132,10 @@ public class MyLinkedList {
         cursor = cursor.next;
       }
       return arr;
+    }
+
+    public int size() {
+      return this.size();
     }
   }
 

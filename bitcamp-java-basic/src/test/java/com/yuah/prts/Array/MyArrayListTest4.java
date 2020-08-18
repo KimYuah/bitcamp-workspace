@@ -1,4 +1,4 @@
-package com.yuah.prts;
+package com.yuah.prts.Array;
 
 import java.util.ArrayList;
 

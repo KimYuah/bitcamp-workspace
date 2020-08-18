@@ -1,10 +1,9 @@
-// Iterator 의 사용
-package com.eomcs.corelib.ex07;
+package com.yuah.prts.corelib;
 
 import java.util.Iterator;
 import java.util.concurrent.ArrayBlockingQueue;
 
-public class Exam0240 {
+public class Iterator0240 {
   public static void main(String[] args) {
     String s1 = new String("aaa");
     String s2 = new String("bbb");
@@ -12,14 +11,14 @@ public class Exam0240 {
     String s4 = new String("ddd");
     String s5 = new String("eee");
 
-    ArrayBlockingQueue queue = new ArrayBlockingQueue(100);
-    queue.offer(s1);
-    queue.offer(s2);
-    queue.offer(s3);
-    queue.offer(s4);
-    queue.offer(s5);
+    ArrayBlockingQueue stack = new ArrayBlockingQueue(100);
+    stack.offer(s1);
+    stack.offer(s2);
+    stack.offer(s3);
+    stack.offer(s4);
+    stack.offer(s5);
 
-    Iterator 컬렉션에서값을꺼내주는객체 = queue.iterator();
+    Iterator 컬렉션에서값을꺼내주는객체 = stack.iterator();
     while (컬렉션에서값을꺼내주는객체.hasNext()) {
       System.out.print(컬렉션에서값을꺼내주는객체.next() + ", ");
     }
