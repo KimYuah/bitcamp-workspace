@@ -18,7 +18,6 @@ public class App {
     BoardHandler boardHandler6 = new BoardHandler();
 
     MemberHandler memberHandler = new MemberHandler();
-
     ProjectHandler projectHandler = new ProjectHandler(memberHandler);
     TaskHandler taskHandler = new TaskHandler(memberHandler);
 
@@ -35,6 +34,7 @@ public class App {
           case "/task/list": taskHandler.list(); break;
           case "/board/add": boardHandler.add(); break;
           case "/board/list": boardHandler.list(); break;
+          case "/board/detail/": boardHandler.list(); break;
           case "/board2/add": boardHandler2.add(); break;
           case "/board2/list": boardHandler2.list(); break;
           case "/board3/add": boardHandler3.add(); break;
@@ -52,8 +52,8 @@ public class App {
           default:
             System.out.println("실행할 수 없는 명령입니다.");
         }
-        System.out.println();
-    }
+        System.out.println(); // 이전 명령의 실행을 구분하기 위해 빈 줄 출력
+      }
 
     Prompt.close();
   }
