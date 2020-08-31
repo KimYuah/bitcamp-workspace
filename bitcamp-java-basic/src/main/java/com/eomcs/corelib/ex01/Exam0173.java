@@ -16,7 +16,6 @@ public class Exam0173 {
     public String toString() {
       return "Engine [cc=" + cc + ", valve=" + valve + "]";
     }
-
   }
 
   static class Car implements Cloneable {

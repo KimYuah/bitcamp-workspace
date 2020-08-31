@@ -1,7 +1,6 @@
 package com.eomcs.oop.ex02.util;
 
 public class Score4 {
-
   public String name;
   public int kor;
   public int eng;
@@ -14,7 +13,6 @@ public class Score4 {
     this.aver = this.sum / 3f;
   }
 
-
   public Score4(String name, int kor, int eng, int math) {
     this.name = name;
     this.kor = kor;
@@ -24,3 +22,9 @@ public class Score4 {
     this.compute();
   }
 }
+
+
+
+
+
+

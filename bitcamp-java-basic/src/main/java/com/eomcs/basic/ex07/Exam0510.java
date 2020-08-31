@@ -12,12 +12,13 @@ public class Exam0510 {
     // 프로그램 아규먼트
     // > java Exam0510 aaaa bbbb cccc
     System.out.println(args.length);
-    System.out.println("-------------------------");
+    System.out.println("-----------------------");
     for (String str : args) {
       System.out.println("[" + str + "]");
     }
 
-    System.out.println("-------------------------");
+    System.out.println("-----------------------");
+
     // JVM 아규먼트
     // > java -D이름=값 -D이름=값 Exam0510
     String s1 = System.getProperty("name");
@@ -25,9 +26,9 @@ public class Exam0510 {
     System.out.println(s1);
     System.out.println(s2);
 
-    System.out.println("-------------------------");
+    System.out.println("---------------------------");
 
-    //JVM의 전체 프로퍼티 목록
+    // JVM의 전체 프로퍼티 목록
     // - JVM의 기본 환경 변수
     Properties props = System.getProperties();
     Set keyList = props.keySet();
@@ -39,3 +40,9 @@ public class Exam0510 {
   }
 
 }
+
+
+
+
+
+

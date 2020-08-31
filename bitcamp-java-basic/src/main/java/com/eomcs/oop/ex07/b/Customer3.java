@@ -49,7 +49,6 @@ public class Customer3 {
     if (weight < 1 || weight > 200) {
       this.weight = 0;
       return;
-      //throw new RuntimeException("몸무게가 유효하지 않습니다."); // 예외문법.
     }
     this.weight = weight;
   }

@@ -7,6 +7,7 @@ public class Exam0210 {
   public static void main(String[] args) throws Exception {
     String s1 = new String("Hello");
     String s2 = new String("ABC가각");
+
     // 인스턴스 메서드
     // - non-static 메서드
     // - 인스턴스 주소를 가지고 호출해야 한다.
@@ -22,13 +23,11 @@ public class Exam0210 {
     System.out.println(s1.compareTo(s2));
 
     System.out.println(s1.contains("ll"));
-
     System.out.println(s2.contains("ll"));
-
     System.out.println(s1.equals(s2));
 
-    System.out.println("---------------------");
-    byte[] bytes = s2.getBytes(); // JVM(UTF-16) ==> OS기본문자표(linux/unix:UTF-8, windows:ms949)
+    System.out.println("--------------------");
+    byte[] bytes = s2.getBytes(); // JVM(UTF-16) ===> OS기본문자표(linux/unix: UTF-8, windows: MS949)
     // "ABC가각"
     // - Linux/Unix: 41 42 43 ea b0 80 ea b0 81
     // - Windows: 41 42 43 b0 a1 b0 a2
@@ -37,8 +36,8 @@ public class Exam0210 {
       System.out.println(Integer.toHexString(b & 0xff));
     }
 
-    System.out.println("---------------------");
-    bytes = s2.getBytes("ms949"); // JVM(UTF-16) ==> 지정한 문자표(ms949)
+    System.out.println("--------------------");
+    bytes = s2.getBytes("ms949"); // JVM(UTF-16) ===> 지정한문자표(ms949)
     // "ABC가각"
     // - Windows: 41 42 43 b0 a1 b0 a2
 
@@ -46,9 +45,7 @@ public class Exam0210 {
       System.out.println(Integer.toHexString(b & 0xff));
     }
 
-    System.out.println("---------------------");
-
-    String.format("%s님 방가방가!", "홍길동");
+    System.out.println("-----------------------");
 
     String s3 = String.format("%s님 방가방가!", "홍길동");
     System.out.println(s3);
@@ -62,13 +59,14 @@ public class Exam0210 {
     System.out.printf("%s %s %s\n", s5, s6, s7);
 
     System.out.println(Math.abs(-100));
-    System.out.println(Math.ceil(3.28));
-    System.out.println(Math.floor(3.28));
+    System.out.println(Math.ceil(-3.28));
+    System.out.println(Math.floor(-3.28));
     System.out.println(Math.round(3.14));
     System.out.println(Math.round(3.54));
-    System.out.println(Math.pow(2,  7));
+    System.out.println(Math.pow(2, 7));
 
     Date d1 = new Date();
+
     System.out.println(d1.getYear() + 1900);
     System.out.println(d1.getMonth() + 1);
     System.out.println(d1.getDate());
@@ -88,7 +86,7 @@ public class Exam0210 {
     System.out.println(d3.getMonth() + 1);
     System.out.println(d3.getDate());
 
-    System.out.println("-----------------------------------");
+    System.out.println("--------------------------");
     Calendar cal = Calendar.getInstance();
     System.out.println(cal.get(1)); // year
     System.out.println(cal.get(2) + 1); // month
@@ -104,7 +102,7 @@ public class Exam0210 {
     System.out.println(cal.get(Calendar.MONTH) + 1); // month
     System.out.println(cal.get(Calendar.DATE)); // date
     System.out.println(cal.get(Calendar.DAY_OF_WEEK)); // 요일(1 ~ 7)
-    System.out.println(cal.get(Calendar.DAY_OF_MONTH)); // 해당 월의 몇 번째 주
+    System.out.println(cal.get(Calendar.WEEK_OF_MONTH)); // 해당 월의 몇 번째 주
     System.out.println(cal.get(Calendar.HOUR)); // 12 hour
     System.out.println(cal.get(Calendar.HOUR_OF_DAY)); // 24 hour
     System.out.println(cal.get(Calendar.MINUTE)); // minute
@@ -125,5 +123,15 @@ public class Exam0210 {
     System.out.println(i3.toString());
     System.out.println(i4.toString());
     System.out.println(i3 == i4);
+
+    Integer ii1 = Integer.valueOf(100);
+    Integer ii2 = Integer.valueOf(200);
+    Integer ii3 = Integer.valueOf(300);
+    System.out.println(ii2.compareTo(ii1));
   }
 }
+
+
+
+
+

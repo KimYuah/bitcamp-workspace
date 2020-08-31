@@ -25,14 +25,13 @@ public class Exam0120 {
     // println()에 넘겨주는 값이 String 타입이 아니라면
     // println()은 그 객체에 대해 toString() 호출한 후 그 리턴 값을 출력한다.
     // 따라서 다음 코드는 위의 코드와 같다.
-    System.out.println(obj); // toString(); 오브젝트에 정의되어있다. 그래서 내부적으로 호출가능
-
+    System.out.println(obj);
 
     // 해시값?
     // - 인스턴스 마다 부여된 고유의 식별자이다.
     // - 주의! 주소 아니다!
     // - 인스턴스가 같은지 검사할 때 사용할 수 있다.
-    // - toString()을 재정의하지 않고 원래 메서드를 그대로 사용하면
+    // - hashCode()를 재정의하지 않고 원래 메서드를 그대로 사용하면
     //   무조건 인스턴스마다 새 해시값이 부여된다.
 
     My obj2 = new My();

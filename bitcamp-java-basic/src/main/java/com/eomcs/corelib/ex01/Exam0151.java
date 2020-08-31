@@ -45,7 +45,7 @@ public class Exam0151 {
       if (working != other.working)
         return false;
       return true;
-    } // 오버라이드 주석하면 결과값이 달라진다.
+    }
 
   }
 

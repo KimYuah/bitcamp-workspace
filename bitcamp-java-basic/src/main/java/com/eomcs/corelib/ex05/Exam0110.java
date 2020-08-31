@@ -26,7 +26,7 @@ public class Exam0110 {
     stack.push(s5); // aaa, ddd, eee
     print(stack);
 
-    System.out.println("--------------------");
+    System.out.println("-----------------");
 
     String value;
     try {

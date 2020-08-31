@@ -1,22 +1,19 @@
 package com.eomcs.basic.ex06;
 
-//# 흐름 제어문 - switch 사용 전
-//
 public class Exam0210 {
-
   public static void main(String[] args) {
     final int DEVELOPER = 1;
     final int GENERAL_MANAGER = 2;
     final int BUILDING_MANAGER = 3;
 
-    int type = GENERAL_MANAGER ;
+    int type = GENERAL_MANAGER;
 
     if (type == DEVELOPER) {
       System.out.println("정보처리자격증");
       System.out.println("졸업증명서");
       System.out.println("이력서");
     } else if (type == GENERAL_MANAGER) {
-      System.out.println("졸업증명");
+      System.out.println("졸업증명서");
       System.out.println("이력서");
     } else if (type == BUILDING_MANAGER) {
       System.out.println("이력서");
@@ -24,7 +21,7 @@ public class Exam0210 {
       System.out.println("잘못된 지원입니다.");
     }
 
-    System.out.println("------------------------");
+    System.out.println("----------------------");
 
     switch (type) {
       case DEVELOPER:
@@ -38,7 +35,7 @@ public class Exam0210 {
         System.out.println("잘못된 지원입니다.");
     }
 
-    System.out.println("------------------------");
+    System.out.println("----------------------");
 
     int score = 70;
 
@@ -50,6 +47,7 @@ public class Exam0210 {
       case 80:
       case 70:
         System.out.println("B");
+        break;
       case 60:
       case 50:
         System.out.println("C");
@@ -58,17 +56,17 @@ public class Exam0210 {
         System.out.println("F");
     }
 
-    System.out.println("------------------------");
+    System.out.println("----------------------");
 
     String value = "developer";
     final String value2 = "developer2";
 
-    switch (value) { // 4byte 이하 정수 타입 (byte, short, int, char), 문자열(String), enum(상수타입)
+    switch (value) { // 4byte 이하 정수(byte, short, int, char), 문자열
       case value2:
         break;
-      case "deverloper":
+      case "developer":
         break;
-      case "Manager":
+      case "manager":
         break;
       case "ok" + "haha":
         break;
@@ -88,7 +86,7 @@ public class Exam0210 {
         break;
     }
 
-    System.out.println("----------------------------");
+    System.out.println("-------------------------");
 
     Job type2 = Job.DEV;
 
@@ -101,9 +99,17 @@ public class Exam0210 {
         break;
     }
 
+
   }
+
   enum Job {
     DEV, GM, BM
   }
-
 }
+
+
+
+
+
+
+

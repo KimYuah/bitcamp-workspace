@@ -7,7 +7,7 @@ public class Exam0415 {
     int result = 1;
     int n = 5;
 
-    for(int i = 2; i <= n; i++) {
+    for (int i = 2; i <= n; i++) {
       result *= i;
     }
 
@@ -19,14 +19,20 @@ public class Exam0415 {
     // result = 5 * factorial(4)
     // result = 5 * 4 * factorial(3)
     // result = 5 * 4 * 3 * factorial(2)
-    // result = 5 * 4 * 3 * 2 * factorial(1)java.lang.StackOverflowError
+    // result = 5 * 4 * 3 * 2 * factorial(1)
     // result = 5 * 4 * 3 * 2 * 1
 
     System.out.println(result);
- }
-  static int factorial(int n) {
+  }
 
+  static int factorial(int n) {
     return n * factorial(n - 1);
   }
 
 }
+
+
+
+
+
+

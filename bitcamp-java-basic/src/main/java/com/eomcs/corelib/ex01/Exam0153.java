@@ -75,7 +75,6 @@ public class Exam0153 {
     System.out.println(k6.hashCode()); // hash code는 같다.
     System.out.println(k3.equals(k6)); // equals()의 비교 결과도 같다.
 
-
   }
 }
 

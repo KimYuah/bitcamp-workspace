@@ -20,12 +20,11 @@ public class MyQueueTest {
     System.out.println(queue.poll());
     System.out.println(queue.poll());
     System.out.println(queue.size());
-
   }
 
   static void print(MyQueue queue) {
     for (int i = 0; i < queue.size(); i++) {
-      System.out.println(queue.get(i) + ",");
+      System.out.print(queue.get(i) + ",");
     }
     System.out.println();
   }

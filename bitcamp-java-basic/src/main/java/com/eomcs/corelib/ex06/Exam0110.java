@@ -26,7 +26,8 @@ public class Exam0110 {
     queue.offer(s5); // ccc, ddd, eee,
     print(queue);
 
-    System.out.println("--------------------");
+    System.out.println("------------------------");
+
     String value;
     while ((value = (String) queue.poll()) != null) {
       System.out.println(value);

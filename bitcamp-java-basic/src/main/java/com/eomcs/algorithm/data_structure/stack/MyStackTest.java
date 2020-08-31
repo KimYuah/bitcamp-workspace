@@ -23,9 +23,8 @@ public class MyStackTest {
 
   static void print(MyStack stack) {
     for (int i = 0; i < stack.size(); i++) {
-      System.out.println(stack.get(i) + ",");
+      System.out.print(stack.get(i) + ",");
     }
-
     System.out.println();
   }
 }

@@ -13,12 +13,18 @@ public class Exam0413 {
       list.add(createArray());
       Thread.currentThread().sleep(2000);
     }
+
   }
 
   static int[] createArray() {
     System.out.print(".");
     return new int[10_000_000];
-
   }
 
 }
+
+
+
+
+
+

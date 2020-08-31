@@ -31,8 +31,8 @@ public class Exam0154 {
     map.put(k3, new Student("유관순", 17, true));
 
     String str = new String("ohora");
-    // map.put(str, new Student("김구", 50, true)); // 컴파일 오류!
-    // HashMap 객체를 만들 때 key 타이으로 Integer를 사용하기로
+    //map.put(str, new Student("김구", 50, true)); // 컴파일 오류!
+    // HashMap 객체를 만들 때 key 타입으로 Integer를 사용하기로
     // 선언했기 때문에 다른 타입을 키로 사용할 수 없다.
 
     // put(Object key, Object value)
@@ -47,8 +47,8 @@ public class Exam0154 {
     // => key 값으로 int를 넘겨준다면,
     //    컴파일러가 컴파일 할 때 auto-boxing을 수행하여 Integer 객체를 만든다.
     //    그리고 그 객체를 넘겨주는 것이다.
-    map.put(104/* new Integer(104)*/, new Student("안중근", 24, true));
-    map.put(105/* new Integer(105)*/, new Student("윤봉길", 22, false));
+    map.put(104 /* new Integer(104)*/, new Student("안중근", 24, true));
+    map.put(105 /* new Integer(105)*/, new Student("윤봉길", 22, false));
 
     // 값을 저장할 때 사용한 key로 다시 값을 꺼내보자!
     System.out.println(map.get(k2));

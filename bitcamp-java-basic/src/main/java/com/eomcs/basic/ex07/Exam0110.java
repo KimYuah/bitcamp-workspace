@@ -17,16 +17,16 @@ public class Exam0110 {
       while (spaceCnt <= spaceLen) {
         System.out.print(" ");
         spaceCnt++;
-      } //공백
+      }
 
       int starCnt = 1;
       while (starCnt <= starLen) {
         System.out.print("*");
         starCnt++;
-      } //별
+      }
       System.out.println();
       starLen += 2;
-
+      
       keyScan.close();
     }
   }

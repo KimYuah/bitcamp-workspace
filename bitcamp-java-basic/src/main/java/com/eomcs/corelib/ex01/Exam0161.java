@@ -12,7 +12,7 @@ public class Exam0161 {
     // 배열의 클래스 정보
     String[] obj2 = new String[10];
     classInfo = obj2.getClass();
-    System.out.println(classInfo.getName()); //[Ljava.lang.String; L 리스트의 약자
+    System.out.println(classInfo.getName()); //[Ljava.lang.String;
 
     int[] obj3 = new int[10];
     classInfo = obj3.getClass();
@@ -31,6 +31,8 @@ public class Exam0161 {
     System.out.println(new long[10].getClass().getName()); //[J
     System.out.println(new char[10].getClass().getName()); //[C
     System.out.println(new boolean[10].getClass().getName()); //[Z
+
+    System.out.println(obj3);
   }
 }
 

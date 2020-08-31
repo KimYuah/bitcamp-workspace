@@ -8,17 +8,17 @@ public class Exam0411 {
     int a = 100;
     System.out.println("main() >> " + a);
     m1(a);
-    System.out.printf(a + " << main()");
+    System.out.println(a + " << main()");
   }
 
-  static  void m1(int a) {
+  static void m1(int a) {
     a += 100;
     System.out.println("m1() >> " + a);
     m2(a);
     System.out.println(a + " << m1()");
   }
 
-  static  void m2(int a) {
+  static void m2(int a) {
     a += 100;
     System.out.println("m2() >> " + a);
     m3(a);
@@ -30,3 +30,9 @@ public class Exam0411 {
     System.out.println("m3(): " + a);
   }
 }
+
+
+
+
+
+

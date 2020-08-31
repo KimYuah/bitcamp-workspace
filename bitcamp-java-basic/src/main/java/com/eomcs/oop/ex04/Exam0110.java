@@ -6,36 +6,36 @@ import java.util.Date;
 public class Exam0110 {
   public static void main(String[] args) throws Exception {
 
-    String s1 = null; // = new String();
+    String s1 = new String();
     System.out.println("=>" + s1);
 
     String s2 = new String("Hello!");
     System.out.println("=>" + s2);
 
-    char[] chars = new char[] {'H', 'e', 'l', 'l', 'o', '2', '!'};
+    char[] chars = new char[] {'H','e','l','l','o','2','!'};
     String s3 = new String(chars);
     System.out.println("=>" + s3);
 
+
     byte[] bytes = new byte[] {
-        0x41, // A(01000001) => (00000000 01000001) 0041
-        0x42, // B(01000010) => (00000000 01000010) 0042
-        (byte)0xEA, // 가 => AC00
+        0x41, // A(01000001)  => (00000000 01000001) 0041
+        0x42, // B(01000010)  => (00000000 01000010) 0042
+        (byte)0xEA, // 가 ==> AC00
         (byte)0xB0,
         (byte)0x80,
-        (byte)0xEA, // 각 => AC01
+        (byte)0xEA, // 각 ==> AC01
         (byte)0xB0,
         (byte)0x81
     };
-
-    String s4 = new String(bytes, "UTF-8"); // ISO-8859-1로 바꾸면 이상한 문자로 바뀐다
+    String s4 = new String(bytes, "UTF-8");
     System.out.println("=>" + s4);
 
     byte[] bytes2 = new byte[] {
-        0x41, // A(01000001) => (00000000 01000001) 0041
-        0x42, // B(01000010) => (00000000 01000010) 0042
-        (byte)0xB0, // 가 => AC00
+        0x41, // A(01000001)  => (00000000 01000001) 0041
+        0x42, // B(01000010)  => (00000000 01000010) 0042
+        (byte)0xB0, // 가 ==> AC00
         (byte)0xA1,
-        (byte)0xB0, // 각 => AC01
+        (byte)0xB0, // 각 ==> AC01
         (byte)0xA2,
         (byte)0xB6, // 똘 (EUC-KR)
         (byte)0xCA,
@@ -43,21 +43,19 @@ public class Exam0110 {
         (byte)0x63,
         (byte)0xB6, // 똥 (EUC-KR)
         (byte)0xCB
-
     };
-
-    String s5 = new String(bytes2, "MS949"); // MS949(11172자) = EUC-KR(2350자) + X
+    String s5 = new String(bytes2, "MS949"); // MS949(11172자) = EUC-KR(2350자) + x
     System.out.println("=>" + s5);
 
-    Date d1 = new Date(); // 아무값도 주지 않으면 실행하는 시점의 날짜와 시분초로 초기화시킨다.
+    Date d1 = new Date(); // 실행하는 시점의 날짜와 시분초로 초기화시킨다.
     System.out.println(d1.toString());
-    System.out.println(d1); //d1.toString()
-    // 아규먼트가 primitive이나 String 타입이 아니면
+    System.out.println(d1); // d1.toString()
+    // 아규먼트가 primitive type이나 String 타입이 아니면
     // 인스턴스에 대해 toString()을 호출하여 그 리턴 값을 출력한다.
 
     int[] arr = new int[] {100, 200, 300};
     System.out.println(arr.toString());
-    System.out.println(arr); // arr.toStirng()
+    System.out.println(arr); // arr.toString()
 
     int a = 100;
     System.out.println(a);
@@ -73,9 +71,9 @@ public class Exam0110 {
     // 1) 다른 클래스의 도움을 받는다.
     // 2) 해당 클래스에서 제공하는 클래스 메서드(스태틱 메서드)를 사용한다.
     //
-    // Calendar c1 = new Calendar();
+    //Calendar c1 = new Calendar();
     Calendar c1 = Calendar.getInstance();
-    System.out.println(c1); // c1.toString() 의 리턴값을 출력
+    System.out.println(c1); // c1.toString()
 
     Car car1 = new Car();
     Car car2 = new Car();
@@ -95,7 +93,6 @@ public class Exam0110 {
     System.out.println(car4.model);
   }
 }
-
 
 class Car {
   String model;
@@ -119,26 +116,18 @@ class Car2 {
   }
 }
 
-// A --> 41 (0100 0001)
-// B --> 42 (0100 0010)
-// 유니코드(2byte : yyyyyyyy yyyyyyyy)
-// UTF -8(1111yyyy 11yyyyyy 11yyyyyy
-// 가 --> EA B0 80 (11101010 10110000 10000000)
-//        AC 00    (10101100 00000000)
-// 비트암호
-// 문자 ---> 암호
-// A    ---> 1
-// B    ---> 2
-// C    ---> 3
-// 가   ---> 100
-// 각   ---> 101
-//
 
-// 다음 암호를 원래의 문자로 표현하시오!
-// 1 --> A
-// 5 --> E
-// 7 --> G
-// 100 --> 가
-// 101 --> 각
+
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -1,4 +1,4 @@
-// call by value vs call by reference
+// call by value vs. call by reference
 package com.eomcs.basic.ex07;
 
 public class Exam0310 {
@@ -33,7 +33,7 @@ public class Exam0310 {
     System.out.println(arr[1]);
     System.out.println(arr[2]);
 
-    System.out.println("-------------------------------");
+    System.out.println("-----------------------");
 
     Person p;
     p = new Person();
@@ -51,25 +51,26 @@ public class Exam0310 {
     p.working = true;
   }
 
-
   static void m1(int a) {
-      a = 100;
-      System.out.println("===>" + a);
+    a = 100;
+    System.out.println("===>" + a);
   }
 
   static void m2(int[] arr) {
-      arr[0] *= 2;
-      arr[1] *= 3;
-      arr[2] *= 4;
+    arr[0] *= 2;
+    arr[1] *= 3;
+    arr[2] *= 4;
   }
+
 
 
 }
 
 
-// 시험지 :
-// 1. 다음 계산을 수행하라.
-//    a 변수에 100을 넣어라.
-//    b 변수에 200을 넣어라.
-//    a와 b를 더해 그 결과를 출력하라.
-//
+
+
+
+
+
+
+
