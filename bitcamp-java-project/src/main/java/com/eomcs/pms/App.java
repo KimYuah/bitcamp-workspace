@@ -28,13 +28,21 @@ public class App {
         switch (command) {
           case "/member/add": memberHandler.add(); break;
           case "/member/list": memberHandler.list(); break;
+          case "/member/detail": memberHandler.list(); break;
+          case "/member/delete": memberHandler.delete(); break;
           case "/project/add": projectHandler.add(); break;
           case "/project/list": projectHandler.list(); break;
+          case "/project/detail": projectHandler.list(); break;
+          case "/project/delete": projectHandler.delete(); break;
           case "/task/add": taskHandler.add(); break;
           case "/task/list": taskHandler.list(); break;
+          case "/task/detail": taskHandler.list(); break;
+          case "/task/delete": taskHandler.delete(); break;
           case "/board/add": boardHandler.add(); break;
           case "/board/list": boardHandler.list(); break;
           case "/board/detail/": boardHandler.list(); break;
+          case "/board/update/": boardHandler.update(); break;
+          case "/board/delete/": boardHandler.delete(); break;
           case "/board2/add": boardHandler2.add(); break;
           case "/board2/list": boardHandler2.list(); break;
           case "/board3/add": boardHandler3.add(); break;
