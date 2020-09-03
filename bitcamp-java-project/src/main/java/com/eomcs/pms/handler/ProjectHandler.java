@@ -2,19 +2,28 @@ package com.eomcs.pms.handler;
 
 import java.sql.Date;
 import com.eomcs.pms.domain.Project;
-import com.eomcs.util.ArrayList;
+import com.eomcs.util.AbstractList;
 import com.eomcs.util.Prompt;
 
 public class ProjectHandler {
 
-  ArrayList<Project> projectList = new ArrayList<>();
   MemberHandler memberHandler;
 
-  public ProjectHandler(MemberHandler memberHandler) {
+  // 1) 다형적 변수의 활용
+  // - 목록을 다루는 데 필요한 의존 객체를 특정 클래스로 제한하지 말고 
+  // - 상위 클래스의 레퍼런스를 사용하여 여러 개의 서브 클래스를 사용할 수 있도록 유연성을 제공하자.
+  AbstractList<Project> projectList;
+
+  // 2) 의존 객체 주입 활용
+  // - 의존 객체를 이 클래스에서 직접 생성하지 말고 외부로부터 주입 받는다.
+  // - 생성자의 특성을 이용하자.
+  // - 생성자? 객체가 작업하는 데 필요한 기본 값 또는 의존 객체를 준비하는 메서드.
+  public ProjectHandler(AbstractList<Project> list, MemberHandler memberHandler) {
+    this.projectList = list;
     this.memberHandler = memberHandler;
   }
 
-  public void add() {   
+  public void add() {
     System.out.println("[프로젝트 등록]");
 
     Project project = new Project();
@@ -60,8 +69,9 @@ public class ProjectHandler {
 
   public void list() {
     System.out.println("[프로젝트 목록]");
-    Project[] projects = projectList.toArray(new Project[] {});
-    for (Project project : projects) {
+
+    for (int i = 0; i < projectList.size(); i++) {
+      Project project = projectList.get(i);
       System.out.printf("%d, %s, %s, %s, %s, [%s]\n",
           project.getNo(),
           project.getTitle(),
@@ -71,25 +81,24 @@ public class ProjectHandler {
           project.getMembers());
     }
   }
-  
+
   public void detail() {
-    System.out.println("[프로젝트 상세조회]");
+    System.out.println("[프로젝트 상세보기]");
     int no = Prompt.inputInt("번호? ");
     Project project = findByNo(no);
-    
+
     if (project == null) {
       System.out.println("해당 번호의 프로젝트가 없습니다.");
       return;
     }
-    
+
     System.out.printf("프로젝트명: %s\n", project.getTitle());
     System.out.printf("내용: %s\n", project.getContent());
     System.out.printf("기간: %s ~ %s\n", project.getStartDate(), project.getEndDate());
     System.out.printf("만든이: %s\n", project.getOwner());
     System.out.printf("팀원: %s\n", project.getMembers());
   }
-  
-  
+
   public void update() {
     System.out.println("[프로젝트 변경]");
     int no = Prompt.inputInt("번호? ");
@@ -154,7 +163,6 @@ public class ProjectHandler {
 
     System.out.println("프로젝트를 변경하였습니다.");
   }
-  
 
   public void delete() {
     System.out.println("[프로젝트 삭제]");
@@ -185,9 +193,14 @@ public class ProjectHandler {
     }
     return null;
   }
-    
+
   private int indexOf(int no) {
-    // TODO Auto-generated method stub
-    return 0;
+    for (int i = 0; i < projectList.size(); i++) {
+      Project project = projectList.get(i);
+      if (project.getNo() == no) {
+        return i;
+      }
+    }
+    return -1;
   }
 }

@@ -2,15 +2,23 @@ package com.eomcs.pms.handler;
 
 import java.sql.Date;
 import com.eomcs.pms.domain.Task;
-import com.eomcs.util.ArrayList;
+import com.eomcs.util.AbstractList;
 import com.eomcs.util.Prompt;
 
 public class TaskHandler {
 
-  ArrayList<Task> taskList = new ArrayList<>();
   MemberHandler memberHandler;
+  // 1) 다형적 변수의 활용
+  // - 목록을 다루는 데 필요한 의존 객체를 특정 클래스로 제한하지 말고 
+  // - 상위 클래스의 레퍼런스를 사용하여 여러 개의 서브 클래스를 사용할 수 있도록 유연성을 제공하자.
+  AbstractList<Task> taskList;
 
-  public TaskHandler(MemberHandler memberHandler) {
+  // 2) 의존 객체 주입 활용
+  // - 의존 객체를 이 클래스에서 직접 생성하지 말고 외부로부터 주입 받는다.
+  // - 생성자의 특성을 이용하자.
+  // - 생성자? 객체가 작업하는 데 필요한 기본 값 또는 의존 객체를 준비하는 메서드.
+  public TaskHandler(AbstractList<Task> list, MemberHandler memberHandler) {
+    this.taskList = list;
     this.memberHandler = memberHandler;
   }
 
@@ -42,8 +50,9 @@ public class TaskHandler {
 
   public void list() {
     System.out.println("[작업 목록]");
-    Task[] tasks = taskList.toArray(new Task[] {});
-    for (Task task : tasks) {
+
+    for (int i = 0; i < taskList.size(); i++) {
+      Task task = taskList.get(i);
       String stateLabel = null;
       switch (task.getStatus()) {
         case 1:
@@ -64,18 +73,16 @@ public class TaskHandler {
     }
   }
 
-  
-  
   public void detail() {
-    System.out.println("[작업 상세조회]");
+    System.out.println("[작업 상세보기]");
     int no = Prompt.inputInt("번호? ");
     Task task = findByNo(no);
-    
+
     if (task == null) {
-      System.out.println("해당 번호의 프로젝트가 없습니다.");
+      System.out.println("해당 번호의 작업이 없습니다.");
       return;
     }
-    
+
     System.out.printf("내용: %s\n", task.getContent());
     System.out.printf("마감일: %s\n", task.getDeadline());
     String stateLabel = null;
@@ -92,9 +99,7 @@ public class TaskHandler {
     System.out.printf("상태: %s\n", stateLabel);
     System.out.printf("담당자: %s\n", task.getOwner());
   }
-  
-  
-  
+
   public void update() {
     System.out.println("[작업 변경]");
     int no = Prompt.inputInt("번호? ");
@@ -151,10 +156,7 @@ public class TaskHandler {
 
     System.out.println("작업을 변경하였습니다.");
   }
- 
 
-  
-  
   public void delete() {
     System.out.println("[작업 삭제]");
     int no = Prompt.inputInt("번호? ");
@@ -173,10 +175,8 @@ public class TaskHandler {
 
     taskList.remove(index);
     System.out.println("작업을 삭제하였습니다.");
-    
   }
 
-  
   private Task findByNo(int no) {
     for (int i = 0; i < taskList.size(); i++) {
       Task task = taskList.get(i);
@@ -186,8 +186,7 @@ public class TaskHandler {
     }
     return null;
   }
-  
-  
+
   private int indexOf(int no) {
     for (int i = 0; i < taskList.size(); i++) {
       Task task = taskList.get(i);

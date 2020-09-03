@@ -1,13 +1,13 @@
 package com.eomcs.util;
 
-import java.util.Arrays;
 import java.lang.reflect.Array;
+import java.util.Arrays;
 
-public class ArrayList<E> {
+public class ArrayList<E> extends AbstractList<E> {
 
   private static final int DEFAULT_CAPACITY = 5;
   private Object[] elementData;
-  private int size;
+
 
   public ArrayList() {
     elementData = new Object[DEFAULT_CAPACITY];
@@ -21,6 +21,7 @@ public class ArrayList<E> {
     }
   }
 
+  @Override
   public boolean add(E e) {
     if (size == elementData.length) {
       grow();
@@ -43,6 +44,7 @@ public class ArrayList<E> {
   }
 
 
+  @Override
   public void add(int index, E element) {
     if (size == elementData.length) {
       grow();
@@ -57,6 +59,7 @@ public class ArrayList<E> {
     size++;
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public E get(int index) {
     if (index < 0 || index >= size) {
@@ -65,6 +68,7 @@ public class ArrayList<E> {
     return (E) elementData[index];
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public E set(int index, E element) {
     if (index < 0 || index >= size) {
@@ -75,6 +79,7 @@ public class ArrayList<E> {
     return (E) old;
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public E remove(int index) {
     Object old = elementData[index];
@@ -100,10 +105,9 @@ public class ArrayList<E> {
     return (E) old;
   }
 
-  public int size() {
-    return this.size;
-  }
 
+
+  @Override
   public Object[] toArray() {
     Object[] arr = Arrays.copyOf(elementData, this.size);
     //System.out.println(elementData == arr); //false
@@ -116,11 +120,13 @@ public class ArrayList<E> {
     return arr;
      */
   }
-  
+
+  @Override
   @SuppressWarnings("unchecked")
   public E[] toArray(E[] arr) {
     if (arr.length < size) {
       arr = (E[]) Array.newInstance(arr.getClass().getComponentType(), this.size);
+      //return (E[]) Arrays.copyOf(this.elementData, this.size, arr.getClass());
     }
     System.arraycopy(
         this.elementData, 

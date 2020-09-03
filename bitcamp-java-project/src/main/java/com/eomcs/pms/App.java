@@ -1,58 +1,72 @@
 package com.eomcs.pms;
 
+import com.eomcs.pms.domain.Board;
+import com.eomcs.pms.domain.Member;
+import com.eomcs.pms.domain.Project;
+import com.eomcs.pms.domain.Task;
 import com.eomcs.pms.handler.BoardHandler;
 import com.eomcs.pms.handler.MemberHandler;
 import com.eomcs.pms.handler.ProjectHandler;
 import com.eomcs.pms.handler.TaskHandler;
+import com.eomcs.util.AbstractList;
+import com.eomcs.util.ArrayList;
+import com.eomcs.util.LinkedList;
 import com.eomcs.util.Prompt;
+import com.eomcs.util.Queue;
+import com.eomcs.util.Stack;
 
 public class App {
 
   public static void main(String[] args) {
 
-    BoardHandler boardHandler = new BoardHandler();
-    BoardHandler boardHandler2 = new BoardHandler();
-    BoardHandler boardHandler3 = new BoardHandler();
-    BoardHandler boardHandler4 = new BoardHandler();
-    BoardHandler boardHandler5 = new BoardHandler();
-    BoardHandler boardHandler6 = new BoardHandler();
+    // 추상 클래스는 인스턴스를 만들 수 없다.
+    // => 화나는가? 화내지 말라.
+    // => 그 추상 클래스를 만든 개발자는
+    //      서브 클래스를 만들 때 상속 받는 용으로 쓰라고 만든 클래스다.
+    // => 그러니 일반 용도로 사용하지 못하게 막는 것은 당연하다.
+    // AbstractList<Board> boardList = new AbstractList<>(); // 컴파일 오류!ㄴ
+    AbstractList<Board> boardList = new ArrayList<>();
+    // BoardHandler가 작업하는데 필요한 객체(의존 객체)를 이렇게 외부에서 생성자를 통해 주입한다.
+    // => '의존 객체 주입(Dependency Injection; DI)' 이라 부른다.
+    BoardHandler boardHandler = new BoardHandler(boardList);
 
-    MemberHandler memberHandler = new MemberHandler();
-    ProjectHandler projectHandler = new ProjectHandler(memberHandler);
-    TaskHandler taskHandler = new TaskHandler(memberHandler);
+    AbstractList<Member> memberList = new ArrayList<>();
+    MemberHandler memberHandler = new MemberHandler(memberList);
+
+    AbstractList<Project> projectList = new LinkedList<>();
+    ProjectHandler projectHandler = new ProjectHandler(projectList, memberHandler);
+
+    AbstractList<Task> taskList = new ArrayList<>();
+    TaskHandler taskHandler = new TaskHandler(taskList, memberHandler);
+
+    Stack<String> commandList = new Stack<>();
+    Queue<String> commandList2 = new Queue<>();
 
     loop:
       while (true) {
         String command = Prompt.inputString("명령> ");
 
+        // 명령어를 보관한다.
+        commandList.push(command);
+        commandList2.offer(command);
+
         switch (command) {
           case "/member/add": memberHandler.add(); break;
           case "/member/list": memberHandler.list(); break;
-          case "/member/detail": memberHandler.list(); break;
-          case "/member/delete": memberHandler.delete(); break;
+          case "/member/detail": memberHandler.detail(); break;
           case "/project/add": projectHandler.add(); break;
           case "/project/list": projectHandler.list(); break;
-          case "/project/detail": projectHandler.list(); break;
-          case "/project/delete": projectHandler.delete(); break;
+          case "/project/detail": projectHandler.detail(); break;
           case "/task/add": taskHandler.add(); break;
           case "/task/list": taskHandler.list(); break;
-          case "/task/detail": taskHandler.list(); break;
-          case "/task/delete": taskHandler.delete(); break;
+          case "/task/detail": taskHandler.detail(); break;
           case "/board/add": boardHandler.add(); break;
           case "/board/list": boardHandler.list(); break;
-          case "/board/detail/": boardHandler.list(); break;
-          case "/board/update/": boardHandler.update(); break;
-          case "/board/delete/": boardHandler.delete(); break;
-          case "/board2/add": boardHandler2.add(); break;
-          case "/board2/list": boardHandler2.list(); break;
-          case "/board3/add": boardHandler3.add(); break;
-          case "/board3/list": boardHandler3.list(); break;
-          case "/board4/add": boardHandler4.add(); break;
-          case "/board4/list": boardHandler4.list(); break;
-          case "/board5/add": boardHandler5.add(); break;
-          case "/board5/list": boardHandler5.list(); break;
-          case "/board6/add": boardHandler6.add(); break;
-          case "/board6/list": boardHandler6.list(); break;
+          case "/board/detail": boardHandler.detail(); break;
+          case "/board/update": boardHandler.update(); break;
+          case "/board/delete": boardHandler.delete(); break;
+          case "history": printCommandHistory(commandList); break;
+          case "history2": printCommandHistory2(commandList2); break;
           case "quit":
           case "exit":
             System.out.println("안녕!");
@@ -65,4 +79,45 @@ public class App {
 
     Prompt.close();
   }
+
+  private static void printCommandHistory2(Queue<String> commandList2) {
+    try {
+      Queue<String> commandQueue = commandList2.clone();
+      for (int count = 1; commandQueue.size() > 0; count++) {
+        System.out.println(commandQueue.poll());
+
+        if ((count % 5) == 0) {
+          String response = Prompt.inputString(":");
+          if (response.equalsIgnoreCase("q")) {
+            break;
+          }
+        }
+      }
+    } catch (Exception e) {
+      System.out.println("history2 명령 처리 중 오류 발생!");
+    }
+  }
+
+  private static void printCommandHistory(Stack<String> commandList) {
+    try {
+      Stack<String> commandStack = commandList.clone(); 
+      for (int count = 1; !commandStack.empty(); count++) {
+        System.out.println(commandStack.pop());
+
+        if ((count % 5) == 0) {
+          String response = Prompt.inputString(":");
+          if (response.equalsIgnoreCase("q")) {
+            break;
+          }
+        }
+      }
+    } catch (Exception e) {
+      System.out.println("history 명령 처리 중 오류 발생!");
+    }
+  }
 }
+
+
+
+
+

@@ -1,15 +1,24 @@
 package com.eomcs.pms.handler;
 
 import com.eomcs.pms.domain.Member;
-import com.eomcs.util.ArrayList;
+import com.eomcs.util.AbstractList;
 import com.eomcs.util.Prompt;
 
 public class MemberHandler {
 
-  // MemberHandler가 데이터를 다루기 위해 의존하는 객체를 준비한다.
-  ArrayList<Member> memberList = new ArrayList<>();
+  // 1) 다형적 변수의 활용
+  // - 목록을 다루는 데 필요한 의존 객체를 특정 클래스로 제한하지 말고 
+  // - 상위 클래스의 레퍼런스를 사용하여 여러 개의 서브 클래스를 사용할 수 있도록 유연성을 제공하자.
+  AbstractList<Member> memberList;
 
-  // 다른 패키지에서 이 메서드를 사용할 수 있도록 public 으로 사용 범위를 공개한다.
+  // 2) 의존 객체 주입 활용
+  // - 의존 객체를 이 클래스에서 직접 생성하지 말고 외부로부터 주입 받는다.
+  // - 생성자의 특성을 이용하자.
+  // - 생성자? 객체가 작업하는 데 필요한 기본 값 또는 의존 객체를 준비하는 메서드.
+  public MemberHandler(AbstractList<Member> list) {
+    this.memberList = list;
+  }
+
   public void add() {
     System.out.println("[회원 등록]");
 
@@ -28,9 +37,8 @@ public class MemberHandler {
   public void list() {
     System.out.println("[회원 목록]");
 
-    Member[] members = memberList.toArray(new Member[] {});
-
-    for (Member member : members) {
+    for (int i = 0; i < memberList.size(); i++) {
+      Member member = memberList.get(i);
       System.out.printf("%d, %s, %s, %s, %s\n",
           member.getNo(),
           member.getName(),
@@ -41,34 +49,32 @@ public class MemberHandler {
   }
 
   public Member findByName(String name) {
-    Member[] members = memberList.toArray(new Member[] {});
-
-    for (Member member : members) {
+    for (int i = 0; i < memberList.size(); i++) {
+      Member member = memberList.get(i);
       if (member.getName().equals(name)) {
         return member;
       }
     }
     return null;
   }
-  
+
   public void detail() {
-    System.out.println("회원 상세조회");
+    System.out.println("[회원 상세보기]");
     int no = Prompt.inputInt("번호? ");
     Member member = findByNo(no);
-    
+
     if (member == null) {
       System.out.println("해당 번호의 회원이 없습니다.");
       return;
     }
-    
+
     System.out.printf("이름: %s\n", member.getName());
     System.out.printf("이메일: %s\n", member.getEmail());
     System.out.printf("사진: %s\n", member.getPhoto());
     System.out.printf("전화: %s\n", member.getTel());
     System.out.printf("등록일: %s\n", member.getRegisteredDate());
-    
   }
-  
+
   public void update() {
     System.out.println("[회원 변경]");
     int no = Prompt.inputInt("번호? ");
@@ -103,30 +109,28 @@ public class MemberHandler {
 
     System.out.println("회원을 변경하였습니다.");
   }
-  
+
   public void delete() {
     System.out.println("[회원 삭제]");
     int no = Prompt.inputInt("번호? ");
     int index = indexOf(no);
-    
+
     if (index == -1) {
-      System.out.println("해당 번호의 회원이 없습니다."); 
+      System.out.println("해당 번호의 회원이 없습니다.");
       return;
-    } 
-    
-    String response = Prompt.inputString("정말 삭제하시겠습니까? (y/N)");
+    }
+
+    String response = Prompt.inputString("정말 삭제하시겠습니까?(y/N) ");
     if (!response.equalsIgnoreCase("y")) {
       System.out.println("회원 삭제를 취소하였습니다.");
       return;
     }
-    
-     memberList.remove(index);
-     System.out.println("회원을 삭제하였습니다.");
-    
-  }
-  
 
-  public Member findByNo(int no) {
+    memberList.remove(index);
+    System.out.println("회원을 삭제하였습니다.");
+  }
+
+  private Member findByNo(int no) {
     for (int i = 0; i < memberList.size(); i++) {
       Member member = memberList.get(i);
       if (member.getNo() == no) {
@@ -135,7 +139,7 @@ public class MemberHandler {
     }
     return null;
   }
-  
+
   private int indexOf(int no) {
     for (int i = 0; i < memberList.size(); i++) {
       Member member = memberList.get(i);
@@ -145,5 +149,4 @@ public class MemberHandler {
     }
     return -1;
   }
-
 }
