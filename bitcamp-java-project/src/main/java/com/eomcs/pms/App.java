@@ -9,6 +9,7 @@ import com.eomcs.pms.handler.MemberHandler;
 import com.eomcs.pms.handler.ProjectHandler;
 import com.eomcs.pms.handler.TaskHandler;
 import com.eomcs.util.ArrayList;
+import com.eomcs.util.Iterator;
 import com.eomcs.util.LinkedList;
 import com.eomcs.util.List;
 import com.eomcs.util.Prompt;
@@ -19,18 +20,10 @@ public class App {
 
   public static void main(String[] args) {
 
-    // 추상 클래스는 인스턴스를 만들 수 없다.
-    // => 화나는가? 화내지 말라.
-    // => 그 추상 클래스를 만든 개발자는
-    //      서브 클래스를 만들 때 상속 받는 용으로 쓰라고 만든 클래스다.
-    // => 그러니 일반 용도로 사용하지 못하게 막는 것은 당연하다.
-    // AbstractList<Board> boardList = new AbstractList<>(); // 컴파일 오류!ㄴ
     List<Board> boardList = new ArrayList<>();
-    // BoardHandler가 작업하는데 필요한 객체(의존 객체)를 이렇게 외부에서 생성자를 통해 주입한다.
-    // => '의존 객체 주입(Dependency Injection; DI)' 이라 부른다.
     BoardHandler boardHandler = new BoardHandler(boardList);
 
-    List<Member> memberList = new ArrayList<>();
+    List<Member> memberList = new LinkedList<>();
     MemberHandler memberHandler = new MemberHandler(memberList);
 
     List<Project> projectList = new LinkedList<>();
@@ -39,34 +32,44 @@ public class App {
     List<Task> taskList = new ArrayList<>();
     TaskHandler taskHandler = new TaskHandler(taskList, memberHandler);
 
-    Stack<String> commandList = new Stack<>();
-    Queue<String> commandList2 = new Queue<>();
+    Stack<String> commandStack = new Stack<>();
+    Queue<String> commandQueue = new Queue<>();
 
     loop:
       while (true) {
         String command = Prompt.inputString("명령> ");
 
-        // 명령어를 보관한다.
-        commandList.push(command);
-        commandList2.offer(command);
+        // 사용자가 입력한 명령을 보관한다.
+        commandStack.push(command);
+        commandQueue.offer(command);
 
         switch (command) {
           case "/member/add": memberHandler.add(); break;
           case "/member/list": memberHandler.list(); break;
           case "/member/detail": memberHandler.detail(); break;
+          case "/member/update": memberHandler.update(); break;
+          case "/member/delete": memberHandler.delete(); break;
           case "/project/add": projectHandler.add(); break;
           case "/project/list": projectHandler.list(); break;
           case "/project/detail": projectHandler.detail(); break;
+          case "/project/update": projectHandler.update(); break;
+          case "/project/delete": projectHandler.delete(); break;
           case "/task/add": taskHandler.add(); break;
           case "/task/list": taskHandler.list(); break;
           case "/task/detail": taskHandler.detail(); break;
+          case "/task/update": taskHandler.update(); break;
+          case "/task/delete": taskHandler.delete(); break;
           case "/board/add": boardHandler.add(); break;
           case "/board/list": boardHandler.list(); break;
           case "/board/detail": boardHandler.detail(); break;
           case "/board/update": boardHandler.update(); break;
           case "/board/delete": boardHandler.delete(); break;
-          case "history": printCommandHistory(commandList); break;
-          case "history2": printCommandHistory2(commandList2); break;
+
+          // Iterator 패턴을 이용하면,
+          // 자료 구조와 상관없이 일관된 방법으로 목록의 값을 조회할 수 있다.
+          case "history": printCommandHistory(commandStack.iterator()); break;
+          case "history2": printCommandHistory(commandQueue.iterator()); break;
+
           case "quit":
           case "exit":
             System.out.println("안녕!");
@@ -80,35 +83,16 @@ public class App {
     Prompt.close();
   }
 
-  private static void printCommandHistory2(Queue<String> commandList2) {
+  static void printCommandHistory(Iterator<String> iterator) {
     try {
-      Queue<String> commandQueue = commandList2.clone();
-      for (int count = 1; commandQueue.size() > 0; count++) {
-        System.out.println(commandQueue.poll());
+      int count = 0;
+      while (iterator.hasNext()) {
+        System.out.println(iterator.next());
+        count++;
 
-        if ((count % 5) == 0) {
-          String response = Prompt.inputString(":");
-          if (response.equalsIgnoreCase("q")) {
-            break;
-          }
-        }
-      }
-    } catch (Exception e) {
-      System.out.println("history2 명령 처리 중 오류 발생!");
-    }
-  }
-
-  private static void printCommandHistory(Stack<String> commandList) {
-    try {
-      Stack<String> commandStack = commandList.clone(); 
-      for (int count = 1; !commandStack.empty(); count++) {
-        System.out.println(commandStack.pop());
-
-        if ((count % 5) == 0) {
-          String response = Prompt.inputString(":");
-          if (response.equalsIgnoreCase("q")) {
-            break;
-          }
+        // 5개 출력할 때 마다 계속 출력할지 묻는다.
+        if ((count % 5) == 0 && Prompt.inputString(":").equalsIgnoreCase("q")) {
+          break;
         }
       }
     } catch (Exception e) {
@@ -116,8 +100,3 @@ public class App {
     }
   }
 }
-
-
-
-
-

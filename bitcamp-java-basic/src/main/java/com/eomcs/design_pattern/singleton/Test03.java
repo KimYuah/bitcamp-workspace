@@ -2,17 +2,7 @@
 package com.eomcs.design_pattern.singleton;
 
 class Kimbap {
-
-  private static Kimbap instance;
-
-  private Kimbap() {}
-
-  public static Kimbap getInstance() {
-    if (Kimbap.instance == null) {
-      Kimbap.instance = new Kimbap();
-    }
-    return Kimbap.instance;
-  }
+  // 클래스 안의 코드를 완성하시오.
 }
 
 public class Test03 {
@@ -22,7 +12,7 @@ public class Test03 {
 
     Kimbap bap2 = Kimbap.getInstance();
     Kimbap bap3 = Kimbap.getInstance();
-    System.out.println(bap2 == bap3); // true;
+    System.out.println(bap2 == bap3); // true
   }
 }
 
