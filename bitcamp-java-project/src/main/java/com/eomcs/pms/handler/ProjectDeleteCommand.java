@@ -4,15 +4,12 @@ import java.util.List;
 import com.eomcs.pms.domain.Project;
 import com.eomcs.util.Prompt;
 
-// '/board/add' 명령을 처리할 커드 객체
 public class ProjectDeleteCommand implements Command {
 
   List<Project> projectList;
-  MemberListCommand memberListCommand;
 
-  public ProjectDeleteCommand(List<Project> list, MemberListCommand memberListCommand) {
+  public ProjectDeleteCommand(List<Project> list) {
     this.projectList = list;
-    this.memberListCommand = memberListCommand;
   }
 
   @Override
@@ -45,5 +42,4 @@ public class ProjectDeleteCommand implements Command {
     }
     return -1;
   }
-
 }

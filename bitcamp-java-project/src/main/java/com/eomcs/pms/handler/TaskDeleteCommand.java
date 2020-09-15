@@ -4,15 +4,12 @@ import java.util.List;
 import com.eomcs.pms.domain.Task;
 import com.eomcs.util.Prompt;
 
-// '/board/add' 명령을 처리할 커드 객체
 public class TaskDeleteCommand implements Command {
 
   List<Task> taskList;
-  MemberListCommand memberListCommand;
 
-  public TaskDeleteCommand(List<Task> list, MemberListCommand memberListCommand) {
+  public TaskDeleteCommand(List<Task> list) {
     this.taskList = list;
-    this.memberListCommand = memberListCommand;
   }
 
   @Override

@@ -4,7 +4,6 @@ import java.util.List;
 import com.eomcs.pms.domain.Member;
 import com.eomcs.util.Prompt;
 
-// '/board/add' 명령을 처리할 커드 객체
 public class MemberDetailCommand implements Command {
 
   List<Member> memberList;
@@ -12,7 +11,6 @@ public class MemberDetailCommand implements Command {
   public MemberDetailCommand(List<Member> list) {
     this.memberList = list;
   }
-
 
   @Override
   public void execute() {

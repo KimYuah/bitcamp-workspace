@@ -4,15 +4,12 @@ import java.util.Iterator;
 import java.util.List;
 import com.eomcs.pms.domain.Task;
 
-// '/board/add' 명령을 처리할 커드 객체
 public class TaskListCommand implements Command {
 
   List<Task> taskList;
-  MemberListCommand memberListCommand;
 
-  public TaskListCommand(List<Task> list, MemberListCommand memberListCommand) {
+  public TaskListCommand(List<Task> list) {
     this.taskList = list;
-    this.memberListCommand = memberListCommand;
   }
 
   @Override

@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.List;
 import com.eomcs.pms.domain.Board;
 
-// '/board/add' 명령을 처리할 커맨드 객체
 public class BoardListCommand implements Command {
 
   List<Board> boardList;
@@ -32,4 +31,5 @@ public class BoardListCommand implements Command {
           board.getViewCount());
     }
   }
+
 }

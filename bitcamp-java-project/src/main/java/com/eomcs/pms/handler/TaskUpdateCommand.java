@@ -5,7 +5,6 @@ import java.util.List;
 import com.eomcs.pms.domain.Task;
 import com.eomcs.util.Prompt;
 
-// '/board/add' 명령을 처리할 커드 객체
 public class TaskUpdateCommand implements Command {
 
   List<Task> taskList;

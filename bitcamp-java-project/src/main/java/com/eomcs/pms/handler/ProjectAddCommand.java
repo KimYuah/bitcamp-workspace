@@ -4,7 +4,6 @@ import java.util.List;
 import com.eomcs.pms.domain.Project;
 import com.eomcs.util.Prompt;
 
-// '/board/add' 명령을 처리할 커드 객체
 public class ProjectAddCommand implements Command {
 
   List<Project> projectList;
@@ -48,7 +47,7 @@ public class ProjectAddCommand implements Command {
         break;
       } else if (memberListCommand.findByName(name) != null) {
         if (members.length() > 0) {
-          members.append(",");
+          members.append(":");
         }
         members.append(name);
       } else {

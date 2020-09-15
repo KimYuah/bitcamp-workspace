@@ -4,7 +4,6 @@ import java.util.List;
 import com.eomcs.pms.domain.Member;
 import com.eomcs.util.Prompt;
 
-// '/board/add' 명령을 처리할 커드 객체
 public class MemberAddCommand implements Command {
 
   List<Member> memberList;
@@ -12,7 +11,6 @@ public class MemberAddCommand implements Command {
   public MemberAddCommand(List<Member> list) {
     this.memberList = list;
   }
-
 
   @Override
   public void execute() {
@@ -28,6 +26,5 @@ public class MemberAddCommand implements Command {
     member.setRegisteredDate(new java.sql.Date(System.currentTimeMillis()));
 
     memberList.add(member);
-
   }
 }

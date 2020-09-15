@@ -5,7 +5,7 @@ import java.util.List;
 import com.eomcs.pms.domain.Board;
 import com.eomcs.util.Prompt;
 
-// '/board/add' 명령을 처리할 커드 객체
+// Command 규칙에 따라 클래스를 정의한다. 
 public class BoardAddCommand implements Command {
 
   List<Board> boardList;
@@ -13,7 +13,6 @@ public class BoardAddCommand implements Command {
   public BoardAddCommand(List<Board> list) {
     this.boardList = list;
   }
-
 
   @Override
   public void execute() {
@@ -30,6 +29,5 @@ public class BoardAddCommand implements Command {
     boardList.add(board);
 
     System.out.println("게시글을 등록하였습니다.");
-
   }
 }
