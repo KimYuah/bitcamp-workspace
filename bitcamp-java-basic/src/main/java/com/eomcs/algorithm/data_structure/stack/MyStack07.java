@@ -15,7 +15,7 @@ import com.eomcs.algorithm.data_structure.linkedlist.MyLinkedList;
 // 테스트3: MyStackTest3
 // 7) 제네릭 적용
 //
-public class MyStack07<E> extends MyLinkedList<E> {
+public class MyStack07<E> extends MyLinkedList<E> implements Cloneable {
 
   public E push(E item) {
     add(item);
@@ -37,17 +37,28 @@ public class MyStack07<E> extends MyLinkedList<E> {
   }
 
   public boolean empty() {
-    return size() == 0;
+    return this.size() == 0;
   }
 
   @SuppressWarnings("unchecked")
   @Override
   public MyStack07<E> clone() throws CloneNotSupportedException {
-    MyStack07<E> newStack = new MyStack07<>();
+    // 새 스택을 만든다.
+    MyStack07<E> newStack = new MyStack07<E>();
+
+    // 기존 스택의 값을 가져온다.
     Object[] values = this.toArray();
-    for (Object value : values) {
+
+    // 기존 스택의 값을 새 스택에 넣는다.
+    for(Object value : values) {
       newStack.push((E) value);
     }
     return newStack;
   }
 }
+
+
+
+
+
+

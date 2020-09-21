@@ -44,6 +44,7 @@ public class MyLinkedList11<E> {
     }
   }
 
+
   public boolean add(E e) {
     Node<E> node = new Node<>();
     node.value = e;

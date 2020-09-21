@@ -1,4 +1,4 @@
-// LinkedList 사용법
+// LinkedList 구현과 사용
 package com.eomcs.corelib.ex04;
 
 import java.util.LinkedList;

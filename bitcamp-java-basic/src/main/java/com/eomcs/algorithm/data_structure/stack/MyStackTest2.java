@@ -7,21 +7,21 @@ public class MyStackTest2 {
     stack.push("bbb");
     stack.push("ccc");
     stack.push("ddd");
-    stack.push("eee");
+    stack.push("eee"); // aaa,bbb,ccc,ddd,eee
     print(stack);
 
-    System.out.println("---------------------------");
-
-    MyStack stack2 = stack.clone();
-    stack2.pop();
-    stack2.pop();
+    MyStack stack2 = stack.clone();// aaa,bbb,ccc,ddd,eee
     print(stack2);
-    System.out.println("---------------------------");
 
+    System.out.println(stack2.pop()); // eee
+    System.out.println(stack2.pop()); // ddd
+    System.out.println(stack2.pop()); // ccc
+    print(stack2); // aaa,bbb
+
+    System.out.println("-----------------");
     print(stack);
-    System.out.println("---------------------------");
-  }
 
+  }
   static void print(MyStack stack) {
     for (int i = 0; i < stack.size(); i++) {
       System.out.print(stack.get(i) + ",");

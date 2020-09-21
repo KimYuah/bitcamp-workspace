@@ -1,41 +1,93 @@
+// 조건문
 package com.eomcs.basic.ex06;
 
-//# 흐름 제어문 - 조건문 if
-//
 public class Exam0110 {
   public static void main(String[] args) {
-    int age = 17;
+    int age = 64;
 
-    // => if (조건) 문장;
-    if (age >= 19) System.out.println("성인이다.");
+    if (age >= 19)
+      System.out.println("성인입니다.");
 
-    // => 문장을 다른 줄에 놓는 경우가 많다.
-    if (age >= 19); // if 문에 빈 문장을 넣을 수 있다.
-    System.out.println("성인이다.");
-    // 이런 경우 개발자가 오해할 수 있다.
-    // if (조건) 뒤에 문자의 끝을 표시하는 세미콜론을 사용하지 않도록 조심하라!
+    if (age >= 65)
+      System.out.println("노인연금 수령 대상자입니다.");
 
-    // 참고!
-    // => 문장을 작성할 때 연산자, 피연산자, 문장 기호에 따라 여러 줄에 걸쳐 작성할 수 있다.
-    // => 단 문장을 여러 줄로 나누어 작성할 때, 읽기 쉽게 작성하라.
-    // => 다음과 같이 하지 말라!
-    if (age
-        >=
-        19) System
-    .
-    out.
-    println(
-        "성인이다.")
-    ;
+    System.out.println("--------------------------");
+
+    int gender = 2;
+
+    if (gender == 1) {
+      System.out.println("여성!");
+      System.out.println("-----");
+    } else {
+      System.out.println("남성!");
+      System.out.println("-----");
+    }
+
+    System.out.println("--------------------------");
+
+    int age2 = 17;
+
+    if (age2 >= 19)
+      if (age2 >= 65)
+        System.out.println("지하철 무임승차 가능합니다.");
+    else
+      System.out.println("미성년입니다.");
+
+    System.out.println("--------------------------");
+
+    int age3 = 67;
+
+    if (age3 < 8)
+      System.out.println("아동!");
+    else
+      if (age3 < 14)
+        System.out.println("어린이!");
+      else
+        if (age3 < 19)
+          System.out.println("청소년!");
+        else
+          if (age3 < 65)
+            System.out.println("성인!");
+          else
+            System.out.println("노인!");
+
+    System.out.println("--------------------------");
+
+    age3 = 55;
+
+    if (age3 < 8)
+      System.out.println("아동!");
+    else if (age3 < 14)
+      System.out.println("어린이!");
+    else if (age3 < 19)
+      System.out.println("청소년!");
+    else if (age3 < 65)
+      System.out.println("성인!");
+    else
+      System.out.println("노인!");
+
+    System.out.println("--------------------------");
+
+    age3 = 22;
+
+    if (age3 < 8) {
+      System.out.println("아동!");
+    } else if (age3 < 14) {
+      System.out.println("어린이!");
+    } else if (age3 < 19) {
+      System.out.println("청소년!");
+    } else if (age3 < 65) {
+      System.out.println("성인!");
+    } else {
+      System.out.println("노인!");
+    }
   }
 }
-/*
-# if 조건문
-문법1:
-  if (조건) 문장1;
-  => 조건이 참일 때 문장1을 수행한다.
 
-문법2:
-  if (조건) 문장1; else 문장2;
-  => 조건이 참일 때 문장1을 수행하고, 거짓이면 문장2를 수행한다.
- */
+
+
+
+
+
+
+
