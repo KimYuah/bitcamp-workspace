@@ -21,12 +21,12 @@ public class Member implements java.io.Serializable {
   // => Member의 경우 클래스를 변경할 때 tel 변수를 추가하였다.
   //    따라서 이전 데이터를 읽는데는 문제가 없다.
   //    그래서 버전 번호를 바꾸지 않은 것이다. 
-  
+
   String name;
-  
+
   //Exam0420의 세 번째 테스트를 실행할 때 주석으로 막아라!
   int age;
-  
+
   boolean gender; // true(여자), false(남자)
 
   // Exam0420의 두 번째 테스트를 실행할 때 주석을 풀라!
@@ -35,10 +35,10 @@ public class Member implements java.io.Serializable {
   @Override
   public String toString() {
     return "Member [name=" + name +
-    // Exam0420의 세 번째 테스트를 실행할 때 주석으로 막아라!
+        // Exam0420의 세 번째 테스트를 실행할 때 주석으로 막아라!
         ", age=" + age + 
         ", gender=" + gender +
-    // Exam0420의 두 번째 테스트를 실행할 때 주석을 풀라!
+        // Exam0420의 두 번째 테스트를 실행할 때 주석을 풀라!
         //", tel=" + tel +
         "]";
   }
