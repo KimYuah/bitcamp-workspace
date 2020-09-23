@@ -1,8 +1,15 @@
 package com.eomcs.pms.domain;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Task {
+//serialize 기능을 활성화시킨다.
+//=> java.io.Serializable 인터페이스를 구현한다.
+//
+public class Task implements Serializable {
+
+  private static final long serialVersionUID = 1L;
+
   private int no;
   private String content;
   private Date deadline;
@@ -40,26 +47,5 @@ public class Task {
     this.owner = owner;
   }
 
-  public static Task valueOfCsv(String csv) {
-    String[] data = csv.split(",");
-
-    Task task = new Task();
-    task.setNo(Integer.parseInt(data[0]));
-    task.setContent(data[1]);
-    task.setDeadline(Date.valueOf(data[2]));
-    task.setStatus(Integer.parseInt(data[3]));
-    task.setOwner(data[4]);
-
-    return task;
-  }
-
-  public String toCsvString() {
-    return String.format("%d,%s,%s,%d,%s\n", 
-        this.getNo(),
-        this.getContent(),
-        this.getDeadline(),
-        this.getStatus(),
-        this.getOwner());
-  }
 
 }

@@ -1,8 +1,15 @@
 package com.eomcs.pms.domain;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Project {
+//serialize 기능을 활성화시킨다.
+//=> java.io.Serializable 인터페이스를 구현한다.
+//
+public class Project implements Serializable {
+
+  private static final long serialVersionUID = 1L;
+
   private int no;
   private String title;
   private String content;
@@ -54,30 +61,5 @@ public class Project {
     this.members = members;
   }
 
-  public static Project valueOfCsv(String csv) {
-    String[] data = csv.split(",");
-
-    Project project = new Project();
-    project.setNo(Integer.parseInt(data[0]));
-    project.setTitle(data[1]);
-    project.setContent(data[2]);
-    project.setStartDate(Date.valueOf(data[3]));
-    project.setEndDate(Date.valueOf(data[4]));
-    project.setOwner(data[5]);
-    project.setMembers(data[6]);
-
-    return project;
-  }
-
-  public String toCsvString() {
-    return String.format("%d,%s,%s,%s,%s,%s,%s\n", 
-        this.getNo(),
-        this.getTitle(),
-        this.getContent(),
-        this.getStartDate(),
-        this.getEndDate(),
-        this.getOwner(),
-        this.getMembers());
-  }
 
 }
