@@ -1,14 +1,11 @@
 package com.eomcs.pms;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,34 +42,42 @@ import com.eomcs.pms.handler.TaskDeleteCommand;
 import com.eomcs.pms.handler.TaskDetailCommand;
 import com.eomcs.pms.handler.TaskListCommand;
 import com.eomcs.pms.handler.TaskUpdateCommand;
+import com.eomcs.util.CsvObject;
+import com.eomcs.util.ObjectFactory;
 import com.eomcs.util.Prompt;
 
 public class App {
 
-  // main(), saveBoards(), loadBoards() 가 공유하는 필드 
-  static List<Board> boardList = new ArrayList<>();
-  static File boardFile = new File("./board.data"); // 게시글을 저장할 파일 정보
-
-  // main(), saveMembers(), loadMembers() 가 공유하는 필드 
-  static List<Member> memberList = new LinkedList<>();
-  static File memberFile = new File("./member.data"); // 회원을 저장할 파일 정보
-
-  // main(), saveProjects(), loadProjects() 가 공유하는 필드 
-  static List<Project> projectList = new LinkedList<>();
-  static File projectFile = new File("./project.data"); // 프로젝트를 저장할 파일 정보
-
-  // main(), saveTasks(), loadTasks() 가 공유하는 필드 
-  static List<Task> taskList = new ArrayList<>();
-  static File taskFile = new File("./task.data"); // 작업을 저장할 파일 정보
-
-
   public static void main(String[] args) {
+    // 스태틱 멤버들이 공유하는 변수가 아니라면 로컬 변수로 만들라.
+    List<Board> boardList = new ArrayList<>();
+    File boardFile = new File("./board.csv"); // 게시글을 저장할 파일 정보
+
+    List<Member> memberList = new LinkedList<>();
+    File memberFile = new File("./member.csv"); // 회원을 저장할 파일 정보
+
+    List<Project> projectList = new LinkedList<>();
+    File projectFile = new File("./project.csv"); // 프로젝트를 저장할 파일 정보
+
+    List<Task> taskList = new ArrayList<>();
+    File taskFile = new File("./task.csv"); // 작업을 저장할 파일 정보
 
     // 파일에서 데이터 로딩
-    loadObjects(boardList, boardFile);
-    loadObjects(memberList, memberFile);
-    loadObjects(projectList, projectFile);
-    loadObjects(taskList, taskFile);
+    // => loadObjects(Collection<T>, File, CsvObjectFactory<T>)
+    // => 첫 번째 파라미터 : ObjectFactory.create()가 만든 객체를 보관하는 컬렉션이다.
+    // => 두 번째 파라미터 : CSV 문자열이 저장된 파일 정보이다.
+    // => 세 번째 파리미터 : CSV 문자열을 객체로 만들어주는 create() 메서드를 가진 CsvObjectFactory 구현체이다.
+    // ObjectFactory의 구현체는 따로 만들지 않고 
+    // 메서드 레퍼런스를 통해 기존에 존재하는 메서드를 전달한다.
+    // 즉, '메서드 레퍼런스' 문법을 이용하여 
+    // 기존 도메인 객체에 정의되어 있던 valueOfCsv() 메서드를 전달한다.
+    // 단 ObjectFactory.create() 메서드와 
+    // valueOfCsv() 메서드의 파라미터와 리턴 타입이 같다는 전제하에서다.
+    //
+    loadObjects(boardList, boardFile, Board::new);
+    loadObjects(memberList, memberFile, Member::new);
+    loadObjects(projectList, projectFile, Project::new);
+    loadObjects(taskList, taskFile, Task::new);
 
     Map<String,Command> commandMap = new HashMap<>();
 
@@ -168,32 +173,25 @@ public class App {
     }
   }
 
-  private static <E extends Serializable> void saveObjects(Collection<E> list, File file) {
-    ObjectOutputStream out = null;
+  private static <T extends CsvObject> void saveObjects(Collection<T> list, File file) {
+    BufferedWriter out = null; 
 
     try {
-      out = new ObjectOutputStream(
-          new BufferedOutputStream(
-              new FileOutputStream(file)));
+      out = new BufferedWriter(new FileWriter(file));
 
-      // 데이터의 개수를 먼저 출력한다.
-      out.writeInt(list.size());
+      for (T csvObject : list) {
+        out.write(csvObject.toCsvString());
+        out.write("\n");
 
-      for (E obj : list) {
-        out.writeObject(obj);
       }
 
-      out.flush(); 
-      // close()가 호출되면 flush()가 자동 호출된다.
-      // 그러나 가능한 버퍼를 사용할 때, 
-      // 출력한 후에 flush()를 호출하는 것을 습관을 들여라.
+      out.flush();
 
-      System.out.printf("총 %d 개의 객체를 '%s' 파일에 저장했습니다.\n", 
+      System.out.printf("총 %d 개의 객체를 '%s' 파일에 저장했습니다.\n",
           list.size(), file.getName());
 
     } catch (IOException e) {
-      System.out.printf("객체를 '%s' 파일에 쓰기 중에 오류 발생! - %s\n", 
-          file.getName(), e.getMessage());
+      System.out.println("게시글 데이터의 파일 쓰기 중 오류 발생! - " + e.getMessage());
 
     } finally {
       try {
@@ -204,30 +202,33 @@ public class App {
     }
   }
 
-  @SuppressWarnings("unchecked")
-  private static <E extends Serializable> void loadObjects(Collection<E> list, File file) {
-    ObjectInputStream in = null;
+  // 파일에서 CSV 문자열을 읽어
+  // 객체를 생성한 후
+  // 컬렉션에 저장한다..
+  private static <T> void loadObjects(
+      Collection<T> list, // 객체를 담을 컬렉션
+      File file, // CSV 문자열이 저장된 파일
+      ObjectFactory<T> factory // CSV 문자열을 받아 T 타입의 객체를 생성해주는 공장
+      ) {
+    BufferedReader in = null;
 
     try {
-      // 기존의 스트림 객체에 데코레이터를 꼽아서 사용한다.
-      in = new ObjectInputStream(
-          new BufferedInputStream(
-              new FileInputStream(file)));
+      // 파일을 읽을 때 사용할 도구를 준비한다.
+      in = new BufferedReader(new FileReader(file));
 
-      // 데이터의 개수를 먼저 읽는다.
-      int size = in.readInt();
-
-      for (int i = 0; i < size; i++) {
-        list.add((E) in.readObject());
+      while (true) {
+        String record = in.readLine();
+        if (record == null) {
+          break;
+        }
+        list.add(factory.create(record));
       }
-
-      System.out.printf("'%s' 파일에서 총 %d 개의 객체를 로딩했습니다.\n", 
+      System.out.printf("'%s' 파일에서 총 %d 개의 객체를 로딩했습니다.\n",
           file.getName(), list.size());
 
     } catch (Exception e) {
-      System.out.printf("'%s' 파일 읽기 중 오류 발생! - %s\n",
+      System.out.printf("'%s' 파일 읽기 중 오류 발생 ! - %s\n",
           file.getName(), e.getMessage());
-
     } finally {
       try {
         in.close();
@@ -235,4 +236,5 @@ public class App {
       }
     }
   }
+
 }
