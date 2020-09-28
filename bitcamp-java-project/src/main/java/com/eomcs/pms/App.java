@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
@@ -43,41 +44,30 @@ import com.eomcs.pms.handler.TaskDetailCommand;
 import com.eomcs.pms.handler.TaskListCommand;
 import com.eomcs.pms.handler.TaskUpdateCommand;
 import com.eomcs.util.CsvObject;
-import com.eomcs.util.ObjectFactory;
 import com.eomcs.util.Prompt;
+import com.google.gson.Gson;
 
 public class App {
 
   public static void main(String[] args) {
     // 스태틱 멤버들이 공유하는 변수가 아니라면 로컬 변수로 만들라.
     List<Board> boardList = new ArrayList<>();
-    File boardFile = new File("./board.csv"); // 게시글을 저장할 파일 정보
+    File boardFile = new File("./board.json"); // 게시글을 저장할 파일 정보
 
     List<Member> memberList = new LinkedList<>();
-    File memberFile = new File("./member.csv"); // 회원을 저장할 파일 정보
+    File memberFile = new File("./member.json"); // 회원을 저장할 파일 정보
 
     List<Project> projectList = new LinkedList<>();
-    File projectFile = new File("./project.csv"); // 프로젝트를 저장할 파일 정보
+    File projectFile = new File("./project.json"); // 프로젝트를 저장할 파일 정보
 
     List<Task> taskList = new ArrayList<>();
-    File taskFile = new File("./task.csv"); // 작업을 저장할 파일 정보
+    File taskFile = new File("./task.json"); // 작업을 저장할 파일 정보
 
     // 파일에서 데이터 로딩
-    // => loadObjects(Collection<T>, File, CsvObjectFactory<T>)
-    // => 첫 번째 파라미터 : ObjectFactory.create()가 만든 객체를 보관하는 컬렉션이다.
-    // => 두 번째 파라미터 : CSV 문자열이 저장된 파일 정보이다.
-    // => 세 번째 파리미터 : CSV 문자열을 객체로 만들어주는 create() 메서드를 가진 CsvObjectFactory 구현체이다.
-    // ObjectFactory의 구현체는 따로 만들지 않고 
-    // 메서드 레퍼런스를 통해 기존에 존재하는 메서드를 전달한다.
-    // 즉, '메서드 레퍼런스' 문법을 이용하여 
-    // 기존 도메인 객체에 정의되어 있던 valueOfCsv() 메서드를 전달한다.
-    // 단 ObjectFactory.create() 메서드와 
-    // valueOfCsv() 메서드의 파라미터와 리턴 타입이 같다는 전제하에서다.
-    //
-    loadObjects(boardList, boardFile, Board::new);
-    loadObjects(memberList, memberFile, Member::new);
-    loadObjects(projectList, projectFile, Project::new);
-    loadObjects(taskList, taskFile, Task::new);
+    loadObjects(boardList, boardFile, Board[].class);
+    loadObjects(memberList, memberFile, Member[].class);
+    loadObjects(projectList, projectFile, Project[].class);
+    loadObjects(taskList, taskFile, Task[].class);
 
     Map<String,Command> commandMap = new HashMap<>();
 
@@ -179,11 +169,10 @@ public class App {
     try {
       out = new BufferedWriter(new FileWriter(file));
 
-      for (T csvObject : list) {
-        out.write(csvObject.toCsvString());
-        out.write("\n");
-
-      }
+      // 컬렉션 객체를 통째로 JSON 문자열로 내보내기
+      Gson gson = new Gson();
+      String jsonStr = gson.toJson(list);
+      out.write(jsonStr);
 
       out.flush();
 
@@ -207,8 +196,8 @@ public class App {
   // 컬렉션에 저장한다..
   private static <T> void loadObjects(
       Collection<T> list, // 객체를 담을 컬렉션
-      File file, // CSV 문자열이 저장된 파일
-      ObjectFactory<T> factory // CSV 문자열을 받아 T 타입의 객체를 생성해주는 공장
+      File file, // JSON 문자열이 저장된 파일
+      Class<T[]> clazz // JSON 문자열을 어떤 타입의 배열로 만들 것인지 알려주는 클래스 정보 
       ) {
     BufferedReader in = null;
 
@@ -216,13 +205,39 @@ public class App {
       // 파일을 읽을 때 사용할 도구를 준비한다.
       in = new BufferedReader(new FileReader(file));
 
-      while (true) {
-        String record = in.readLine();
-        if (record == null) {
-          break;
-        }
-        list.add(factory.create(record));
-      }
+      // 1) 직접 문자열을 읽어 Gson에게 전달하기
+      //      // 파일에서 모든 문자열을 읽어 StringBuilder에 담은 다음에 
+      //      // 최종적으로 String 객체를 꺼낸다.
+      //      StringBuilder strBuilder = new StringBuilder();
+      //      int b = 0;
+      //      while ((b = in.read()) != -1) {
+      //        strBuilder.append((char) b);
+      //      }
+      //
+      //      // JSON 문자열을 가지고 자바 객체를 생성한다.
+      //      Gson gson = new Gson();
+      //      T[] arr = gson.fromJson(strBuilder.toString(), clazz);
+      //      for (T obj : arr) {
+      //        list.add(obj);
+      //      }
+
+      // 2) 입력 스트림을 직접 Gson에게 전달하기
+      //      Gson gson = new Gson();
+      //      T[] arr = gson.fromJson(in, clazz);
+      //      for (T obj : arr) {
+      //        list.add(obj);
+      //      }
+
+      // 3) 배열을 컬렉션에 바로 전달하기
+      // => 개발자가 반복문을 실행하는 대신 메서드 호출을 통해 목록에 넣는다.
+      //      Gson gson = new Gson();
+      //      T[] arr = gson.fromJson(in, clazz);
+      //      // 배열 => 컬렉션 객체 => list에 추가하기
+      //      list.addAll(Arrays.asList(arr));
+
+      // 4) 코드 정리
+      list.addAll(Arrays.asList(new Gson().fromJson(in, clazz)));
+
       System.out.printf("'%s' 파일에서 총 %d 개의 객체를 로딩했습니다.\n",
           file.getName(), list.size());
 
