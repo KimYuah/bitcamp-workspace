@@ -14,7 +14,7 @@ public class Client0130 {
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         DataInputStream in = new DataInputStream(socket.getInputStream())) {
 
-      System.out.println("서버와 연결되었음!");
+      System.out.println("서버와 연결되었고, 입출력 스트림도 준비되었음!");
 
       // 서버에 데이터를 보내기 전에 잠깐 멈춤!
       System.out.print(">");
