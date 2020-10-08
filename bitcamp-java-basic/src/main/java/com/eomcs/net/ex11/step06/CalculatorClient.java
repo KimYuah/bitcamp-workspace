@@ -1,4 +1,4 @@
-// 계산기 클라이언트 만들기 - 6단계: 사용자에게 프롬프트 제시하고 계산식을 입력받기
+// 계산기 클라이언트 만들기 - 6단계: 사용자에게 프롬프트를 제시하고 계산식을 입력 받기
 package com.eomcs.net.ex11.step06;
 
 import java.io.BufferedReader;

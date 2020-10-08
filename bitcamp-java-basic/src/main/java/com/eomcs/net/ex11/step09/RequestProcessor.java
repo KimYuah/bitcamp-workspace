@@ -14,8 +14,6 @@ public class RequestProcessor {
     this.socket = socket;
   }
 
-
-
   public void service() throws Exception {
     try (Socket socket = this.socket;
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -36,8 +34,6 @@ public class RequestProcessor {
     }
   }
 
-
-
   private String compute(String request) {
     try {
       String[] values = request.split(" ");
@@ -48,11 +44,11 @@ public class RequestProcessor {
       int result = 0;
 
       switch (op) {
-        case "+" : result = a + b; break;
-        case "-" : result = a - b; break;
-        case "*" : result = a * b; break;
-        case "/" : result = a / b; break;
-        default : 
+        case "+": result = a + b; break;
+        case "-": result = a - b; break;
+        case "*": result = a * b; break;
+        case "/": result = a / b; break;
+        default:
           return String.format("%s 연산자를 지원하지 않습니다.", op);
       }
       return String.format("결과는 %d %s %d = %d 입니다.", a, op, b, result);
@@ -62,8 +58,6 @@ public class RequestProcessor {
     }
   }
 
-
-
   private void sendResponse(PrintStream out, String message) {
     out.println(message);
     out.println();
@@ -71,8 +65,7 @@ public class RequestProcessor {
   }
 
 
-
-  static void sendIntroMessage(PrintStream out) throws Exception {
+  private void sendIntroMessage(PrintStream out) throws Exception {
     out.println("[비트캠프 계산기]");
     out.println("계산기 서버에 오신 걸 환영합니다!");
     out.println("계산식을 입력하세요!");
@@ -80,5 +73,4 @@ public class RequestProcessor {
     out.println(); // 응답의 끝을 표시하는 빈 줄을 보낸다.
     out.flush();
   }
-
 }

@@ -14,21 +14,17 @@ public class RequestProcessor {
     this.socket = socket;
   }
 
-
-
   public void service() throws Exception {
     try (Socket socket = this.socket;
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintStream out = new PrintStream(socket.getOutputStream());) {
 
-      // 클라이언트 접속에 대해 더 이상 안내 메시지를 제공하지 않는다.
+      // 클라이언트 접속에 대해 더이상 안내 메시지를 제공하지 않는다.
 
       // 한 번 접속에 한 번의 요청만 처리한다.
       sendResponse(out, compute(in.readLine())); 
     }
   }
-
-
 
   private String compute(String request) {
     try {
@@ -40,11 +36,11 @@ public class RequestProcessor {
       int result = 0;
 
       switch (op) {
-        case "+" : result = a + b; Thread.sleep(10000); break;
-        case "-" : result = a - b; break;
-        case "*" : result = a * b; break;
-        case "/" : result = a / b; break;
-        default : 
+        case "+": result = a + b; Thread.sleep(10000); break;
+        case "-": result = a - b; break;
+        case "*": result = a * b; break;
+        case "/": result = a / b; break;
+        default:
           return String.format("%s 연산자를 지원하지 않습니다.", op);
       }
       return String.format("결과는 %d %s %d = %d 입니다.", a, op, b, result);
@@ -54,14 +50,9 @@ public class RequestProcessor {
     }
   }
 
-
-
   private void sendResponse(PrintStream out, String message) {
     out.println(message);
     out.println();
     out.flush();
   }
-
-
-
 }

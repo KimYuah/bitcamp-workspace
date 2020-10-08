@@ -1,4 +1,4 @@
-// 계산기 서버 만들기 - 8단계: 예외처리 추가
+// 계산기 서버 만들기 - 8단계: 예외 처리 추가
 package com.eomcs.net.ex11.step08;
 
 import java.io.BufferedReader;
@@ -46,11 +46,11 @@ public class CalculatorServer {
       int result = 0;
 
       switch (op) {
-        case "+" : result = a + b; break;
-        case "-" : result = a - b; break;
-        case "*" : result = a * b; break;
-        case "/" : result = a / b; break;
-        default : 
+        case "+": result = a + b; break;
+        case "-": result = a - b; break;
+        case "*": result = a * b; break;
+        case "/": result = a / b; break;
+        default:
           return String.format("%s 연산자를 지원하지 않습니다.", op);
       }
       return String.format("결과는 %d %s %d = %d 입니다.", a, op, b, result);

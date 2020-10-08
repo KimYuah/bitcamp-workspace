@@ -40,14 +40,14 @@ public class CalculatorServer {
     int result = 0;
 
     switch (op) {
-      case "+" : result = a + b; break;
-      case "-" : result = a - b; break;
-      case "*" : result = a * b; break;
-      case "/" : result = a / b; break;
-      default : 
+      case "+": result = a + b; break;
+      case "-": result = a - b; break;
+      case "*": result = a * b; break;
+      case "/": result = a / b; break;
+      default:
         return String.format("%s 연산자를 지원하지 않습니다.", op);
     }
-    return String.format("결과는 %d %s %d = %d", a, op, b, result);
+    return String.format("결과는 %d %s %d = %d 입니다.", a, op, b, result);
   }
 
   static void sendResponse(PrintStream out, String message) {

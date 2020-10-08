@@ -40,7 +40,7 @@ public class CalculatorClient {
     System.out.print("계산식> ");
     String input = keyboardScanner.nextLine();
 
-    if (!input.equalsIgnoreCase("quit")) {
+    if (input.equalsIgnoreCase("quit")) {
       return input;
 
     } else if (input.split(" ").length != 3) { // 사용자가 입력한 값을 검증

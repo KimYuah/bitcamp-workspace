@@ -1,4 +1,4 @@
-// 계산기 서버 만들기 - 7단계: 클라이언트의 종료 요청 'quit'처리
+// 계산기 서버 만들기 - 7단계: 클라이언트의 종료 요청 'quit' 처리
 package com.eomcs.net.ex11.step07;
 
 import java.io.BufferedReader;
@@ -21,7 +21,7 @@ public class CalculatorServer {
 
         while (true) {
           String request = in.readLine();
-          if (request.equals("quit")) {
+          if (request.equalsIgnoreCase("quit")) {
             sendResponse(out, "안녕히 가세요!");
             break;
           }
@@ -45,11 +45,11 @@ public class CalculatorServer {
     int result = 0;
 
     switch (op) {
-      case "+" : result = a + b; break;
-      case "-" : result = a - b; break;
-      case "*" : result = a * b; break;
-      case "/" : result = a / b; break;
-      default : 
+      case "+": result = a + b; break;
+      case "-": result = a - b; break;
+      case "*": result = a * b; break;
+      case "/": result = a / b; break;
+      default:
         return String.format("%s 연산자를 지원하지 않습니다.", op);
     }
     return String.format("결과는 %d %s %d = %d 입니다.", a, op, b, result);

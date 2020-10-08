@@ -16,8 +16,8 @@ public class CalculatorServer {
         requestProcessor.setSocket(serverSocket.accept());
         requestProcessor.service();
         // 현재 방식의 문제점?
-        //  - 현재 작업 중인 클라이언트와 연결이 끝날 때까지
-        //    다른 클라이언트는 대기열에서 기다려야 한다.
+        // - 현재 작업 중인 클라이언트와의 연결이 끝날 때까지 
+        //   다른 클라이언트는 대기열에서 기다려야 한다.
       }
     } catch (Exception e) {
       e.printStackTrace();

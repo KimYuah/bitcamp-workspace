@@ -1,5 +1,6 @@
 // 계산기 클라이언트 만들기 - 12단계: 동시에 여러 클라이언트의 요청을 처리하기 (클라이언트 변경 없음)
 // - 스레드를 이용하면 동시에 여러 클라이언트 요청을 처리할 수 있다.
+//  
 package com.eomcs.net.ex11.step12;
 
 import java.io.BufferedReader;
@@ -10,11 +11,11 @@ import java.util.Scanner;
 
 public class CalculatorClient {
   public static void main(String[] args) {
-
     Scanner keyboardScanner = new Scanner(System.in);
 
     while (true) {
-      // 요청 때 마다 연결하기 때문에 서버의 인사말은 더 이상 출력하지 않는다.
+
+      // 요청 때 마다 연결하기 때문에 서버의 인사말은 더이상 출력하지 않는다.
       String input = prompt(keyboardScanner);
       if (input == null) {
         continue;
@@ -26,7 +27,6 @@ public class CalculatorClient {
       try (Socket socket = new Socket("localhost", 8888);
           PrintStream out = new PrintStream(socket.getOutputStream());
           BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-
 
         sendRequest(out, input); // 서버에 요청을 보내기
         receiveResponse(in); // 서버의 실행 결과를 받기
@@ -43,8 +43,7 @@ public class CalculatorClient {
     System.out.print("계산식> ");
     String input = keyboardScanner.nextLine();
 
-
-    if (!input.equalsIgnoreCase("quit")) {
+    if (input.equalsIgnoreCase("quit")) {
       return input;
 
     } else if (input.split(" ").length != 3) { // 사용자가 입력한 값을 검증
