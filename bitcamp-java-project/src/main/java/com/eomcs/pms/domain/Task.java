@@ -1,9 +1,10 @@
 package com.eomcs.pms.domain;
 
 import java.sql.Date;
-import com.eomcs.util.CsvObject;
 
-public class Task implements CsvObject{
+//Task 클래스는 더이상 CsvObject를 구현할 필요가 없다.
+//
+public class Task {
   private int no;
   private String content;
   private Date deadline;
@@ -40,44 +41,4 @@ public class Task implements CsvObject{
   public void setOwner(String owner) {
     this.owner = owner;
   }
-
-  @Override
-  public String toCsvString() {
-    return String.format("%d,%s,%s,%d,%s", 
-        this.getNo(),
-        this.getContent(),
-        this.getDeadline(),
-        this.getStatus(),
-        this.getOwner());
-  }
-
-  public static Task valueOfCsv(String csv) {
-    String[] data = csv.split(",");
-
-    Task task = new Task();
-    task.setNo(Integer.parseInt(data[0]));
-    task.setContent(data[1]);
-    task.setDeadline(Date.valueOf(data[2]));
-    task.setStatus(Integer.parseInt(data[3]));
-    task.setOwner(data[4]);
-
-
-    return task;
-  }
-
-  //다른 생성자가 있으면 컴파일러가 기본 생성자를 만들어주지 않으니까
-  // 다음과 같이 별도로 만들어야 한다.
-  public Task() {}
-
-  // CSV 문자열을 받아 인스턴스 필드를 초기화시키는 생성자
-  public Task(String csv) {
-    String[] data = csv.split(",");
-
-    this.setNo(Integer.parseInt(data[0]));
-    this.setContent(data[1]);
-    this.setDeadline(Date.valueOf(data[2]));
-    this.setStatus(Integer.parseInt(data[3]));
-    this.setOwner(data[4]);
-  }
-
 }

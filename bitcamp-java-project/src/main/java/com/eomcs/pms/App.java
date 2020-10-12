@@ -17,6 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import com.eomcs.context.ApplicationContextListener;
 import com.eomcs.pms.domain.Board;
 import com.eomcs.pms.domain.Member;
 import com.eomcs.pms.domain.Project;
@@ -43,13 +44,56 @@ import com.eomcs.pms.handler.TaskDeleteCommand;
 import com.eomcs.pms.handler.TaskDetailCommand;
 import com.eomcs.pms.handler.TaskListCommand;
 import com.eomcs.pms.handler.TaskUpdateCommand;
-import com.eomcs.util.CsvObject;
+import com.eomcs.pms.listener.AppInitListener;
 import com.eomcs.util.Prompt;
 import com.google.gson.Gson;
 
 public class App {
 
-  public static void main(String[] args) {
+  // 옵저버를 보관할 컬렉션 객체
+  List<ApplicationContextListener> listeners = new ArrayList<>();
+
+  // 옵저버를 등록하는 메서드
+  public void addApplicationContextListener(ApplicationContextListener listener) {
+    listeners.add(listener);
+  }
+
+  // 옵저버를 제거하는 메서드
+  public void removeApplicationContextListener(ApplicationContextListener listener) {
+    listeners.remove(listener);
+  }
+
+  private void notifyApplicationContextListenerOnServiceStarted() {
+    for (ApplicationContextListener listener : listeners) {
+      // 곧 서비스를 시작할테니 준비하라고,
+      // 관심있는 각 옵저버에게 통지한다.
+      listener.contextInitialized();
+    }
+  }
+
+  private void notifyApplicationContextListenerOnServiceStopped() {
+    for (ApplicationContextListener listener : listeners) {
+      // 서비스가 종료되었으니 마무리 작업하라고,
+      // 마무리 작업에 관심있는 각 옵저버에게 통지한다.
+      listener.contextDestroyed();
+    }
+  }
+
+  public static void main(String[] args) throws Exception {
+    App app = new App();
+
+    // 옵저버 등록
+    app.addApplicationContextListener(new AppInitListener());
+
+    app.service();
+
+  }
+
+  public void service() throws Exception {
+
+    // 옵저버에게 통지한다.
+    notifyApplicationContextListenerOnServiceStarted();
+
     // 스태틱 멤버들이 공유하는 변수가 아니라면 로컬 변수로 만들라.
     List<Board> boardList = new ArrayList<>();
     File boardFile = new File("./board.json"); // 게시글을 저장할 파일 정보
@@ -145,9 +189,13 @@ public class App {
     saveObjects(memberList, memberFile);
     saveObjects(projectList, projectFile);
     saveObjects(taskList, taskFile);
+
+    // 옵저버에게 통지한다.
+    notifyApplicationContextListenerOnServiceStopped();
+
   }
 
-  static void printCommandHistory(Iterator<String> iterator) {
+  void printCommandHistory(Iterator<String> iterator) {
     try {
       int count = 0;
       while (iterator.hasNext()) {
@@ -163,8 +211,10 @@ public class App {
     }
   }
 
-  private static <T extends CsvObject> void saveObjects(Collection<T> list, File file) {
-    BufferedWriter out = null; 
+  // 이제 더이상 저장할 객체를 CsvObject로 제한할 필요가 없다.
+  // 어떤 타입의 객체든지 JSON 형식으로 변환할 수 있기 때문이다.
+  private void saveObjects(Collection<?> list, File file) {
+    BufferedWriter out = null;
 
     try {
       out = new BufferedWriter(new FileWriter(file));
@@ -180,33 +230,30 @@ public class App {
           list.size(), file.getName());
 
     } catch (IOException e) {
-      System.out.println("게시글 데이터의 파일 쓰기 중 오류 발생! - " + e.getMessage());
+      System.out.printf("객체를 '%s' 파일에  쓰는 중 오류 발생! - %s\n",
+          file.getName(), e.getMessage());
 
     } finally {
       try {
         out.close();
       } catch (IOException e) {
-        // FileWriter를 닫을 때 발생하는 예외는 무시한다.
       }
     }
   }
 
-  // 파일에서 CSV 문자열을 읽어
-  // 객체를 생성한 후
-  // 컬렉션에 저장한다..
-  private static <T> void loadObjects(
+  // 파일에서 JSON 문자열을 읽어 지정한 타입의 객체를 생성한 후 컬렉션에 저장한다.
+  private <T> void loadObjects(
       Collection<T> list, // 객체를 담을 컬렉션
       File file, // JSON 문자열이 저장된 파일
-      Class<T[]> clazz // JSON 문자열을 어떤 타입의 배열로 만들 것인지 알려주는 클래스 정보 
+      Class<T[]> clazz // JSON 문자열을 어떤 타입의 배열로 만들 것인지 알려주는 클래스 정보
       ) {
     BufferedReader in = null;
 
     try {
-      // 파일을 읽을 때 사용할 도구를 준비한다.
       in = new BufferedReader(new FileReader(file));
 
       // 1) 직접 문자열을 읽어 Gson에게 전달하기
-      //      // 파일에서 모든 문자열을 읽어 StringBuilder에 담은 다음에 
+      //      // 파일에서 모든 문자열을 읽어 StringBuilder에 담은 다음에
       //      // 최종적으로 String 객체를 꺼낸다.
       //      StringBuilder strBuilder = new StringBuilder();
       //      int b = 0;
@@ -242,8 +289,9 @@ public class App {
           file.getName(), list.size());
 
     } catch (Exception e) {
-      System.out.printf("'%s' 파일 읽기 중 오류 발생 ! - %s\n",
+      System.out.printf("'%s' 파일 읽기 중 오류 발생! - %s\n",
           file.getName(), e.getMessage());
+
     } finally {
       try {
         in.close();
@@ -251,5 +299,4 @@ public class App {
       }
     }
   }
-
 }

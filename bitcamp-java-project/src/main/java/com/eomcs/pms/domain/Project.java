@@ -1,9 +1,10 @@
 package com.eomcs.pms.domain;
 
 import java.sql.Date;
-import com.eomcs.util.CsvObject;
 
-public class Project implements CsvObject {
+//Project 클래스는 더이상 CsvObject를 구현할 필요가 없다.
+//
+public class Project {
   private int no;
   private String title;
   private String content;
@@ -54,50 +55,4 @@ public class Project implements CsvObject {
   public void setMembers(String members) {
     this.members = members;
   }
-
-  @Override
-  public String toCsvString() {
-    return String.format("%d,%s,%s,%s,%s,%s,%s", 
-        this.getNo(),
-        this.getTitle(),
-        this.getContent(),
-        this.getStartDate(),
-        this.getEndDate(),
-        this.getOwner(),
-        this.getMembers());
-  }
-
-  public static Project valueOfCsv(String csv) {
-    String[] fields = csv.split(",");
-
-    Project project = new Project();
-    project.setNo(Integer.parseInt(fields[0]));
-    project.setTitle(fields[1]);
-    project.setContent(fields[2]);
-    project.setStartDate(Date.valueOf(fields[3]));
-    project.setEndDate(Date.valueOf(fields[4]));
-    project.setOwner(fields[5]);
-    project.setMembers(fields[6]);
-
-    return project;
-  }
-
-  // 다른 생성자가 있으면 컴파일러가 기본 생성자를 만들어주지 않으니까
-  // 다음과 같이 별도로 만들어야 한다.
-  public Project() {}
-
-  // CSV 문자열을 받아 인스턴스 필드를 초기화시키는 생성자
-  public Project(String csv) {
-    String[] fields = csv.split(",");
-
-    this.setNo(Integer.parseInt(fields[0]));
-    this.setTitle(fields[1]);
-    this.setContent(fields[2]);
-    this.setStartDate(Date.valueOf(fields[3]));
-    this.setEndDate(Date.valueOf(fields[4]));
-    this.setOwner(fields[5]);
-    this.setMembers(fields[6]);
-
-  }
-
 }
