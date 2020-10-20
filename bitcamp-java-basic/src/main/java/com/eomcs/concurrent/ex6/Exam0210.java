@@ -50,7 +50,6 @@ public class Exam0210 {
   // 인터페이스를 준비했다.
   interface ThreadPool {
     Thread get();
-
     void add(Thread obj);
   }
 
@@ -74,7 +73,6 @@ public class Exam0210 {
       t1.start();
       t2.start();
       t3.start();
-
     }
 
     // 스레드 풀에서 한 개의 스레드를 꺼낸다.

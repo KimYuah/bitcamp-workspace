@@ -11,13 +11,12 @@ public class Exam0230 {
 
     public MyRunnable(int millisec) {
       this.millisec = millisec;
-
-      }
+    }
 
     @Override
     public void run() {
       try {
-        System.out.printf("%s 스레드 실행중 ...",
+        System.out.printf("%s 스레드 실행 중...\n",
             Thread.currentThread().getName());
 
         Thread.sleep(millisec);
@@ -29,17 +28,16 @@ public class Exam0230 {
       }
     }
   }
-
   public static void main(String[] args) throws Exception {
+
+    // 한 개의 스레드만 갖는 스레드풀이다.
     ExecutorService executorService = Executors.newSingleThreadExecutor();
 
+    // 스레드가 한 개이기 때문에 순차적으로 실행한다.
     executorService.execute(new MyRunnable(6000));
     executorService.execute(new MyRunnable(3000));
     executorService.execute(new MyRunnable(9000));
     executorService.execute(new MyRunnable(2000));
-
-    Thread.sleep(3000);
-
     executorService.execute(new MyRunnable(4000));
 
     System.out.println("main() 종료!");
