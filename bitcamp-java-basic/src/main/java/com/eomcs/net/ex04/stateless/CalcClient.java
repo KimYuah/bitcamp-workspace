@@ -26,6 +26,7 @@ public class CalcClient {
         out.writeInt(a);
         out.writeUTF(op);
         out.writeInt(b);
+        out.flush();
 
         String str = in.nextLine();
         System.out.println(str);

@@ -1,4 +1,4 @@
-// stateless 에서 다중 클라이언트 요청 처리하기
+// stateless 에서 다중 클라이언트 요청 처리하기_스레드추가
 package com.eomcs.net.ex04.stateless3;
 
 import java.io.DataInputStream;
@@ -106,6 +106,10 @@ public class CalcServer {
           result /= value;
           break;
       }
+
+      // 계산 결과를 다시 resultMap에 보관한다.
+      resultMap.put(clientId, result);
+
       // 클라이언트로 응답할 때 항상 클라이언트 아이디와 결과를 출력한다.
       // => 클라이언트 아이디 출력
       out.writeLong(clientId);
@@ -115,8 +119,6 @@ public class CalcServer {
 
       out.flush();
 
-      // 계산 결과를 다시 resultMap에 보관한다.
-      resultMap.put(clientId, result);
     }
   }
 }
