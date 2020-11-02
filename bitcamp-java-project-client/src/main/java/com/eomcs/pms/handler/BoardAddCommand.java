@@ -17,7 +17,7 @@ public class BoardAddCommand implements Command {
     board.setContent(Prompt.inputString("내용? "));
     board.setWriter(Prompt.inputString("작성자? "));
 
-    try (Connection con = DriverManager.getConnection( //
+    try (Connection con = DriverManager.getConnection(
         "jdbc:mysql://localhost:3306/studydb?user=study&password=1111");
         PreparedStatement stmt = con.prepareStatement(
             "insert into pms_board(title,content,writer) values(?,?,?)")) {
@@ -33,6 +33,5 @@ public class BoardAddCommand implements Command {
       System.out.println("게시글 등록 중 오류 발생!");
       e.printStackTrace();
     }
-
   }
 }

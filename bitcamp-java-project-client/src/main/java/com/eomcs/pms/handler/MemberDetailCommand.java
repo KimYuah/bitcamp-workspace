@@ -13,15 +13,16 @@ public class MemberDetailCommand implements Command {
     System.out.println("[회원 상세보기]");
     int no = Prompt.inputInt("번호? ");
 
-
-    try (Connection con = DriverManager.getConnection( //
+    try (Connection con = DriverManager.getConnection(
         "jdbc:mysql://localhost:3306/studydb?user=study&password=1111");
-        PreparedStatement stmt = con.prepareStatement( //
-            "select no, name, email, photo, tel, cdt"
-            + " from pms_member"
-            + " where no = " + no);
-       ResultSet rs = stmt.executeQuery()) {
+        PreparedStatement stmt = con.prepareStatement(
+            "select name, email, photo, tel, cdt"
+                + " from pms_member"
+                + " where no = ?")) {
 
+      stmt.setInt(1, no);
+
+      try (ResultSet rs = stmt.executeQuery()) {
         if (rs.next()) {
           System.out.printf("이름: %s\n", rs.getString("name"));
           System.out.printf("이메일: %s\n", rs.getString("email"));
@@ -32,9 +33,10 @@ public class MemberDetailCommand implements Command {
         } else {
           System.out.println("해당 번호의 회원이 존재하지 않습니다.");
         }
-      } catch (Exception e) {
-        System.out.println("회원 조회 중 오류 발생!");
-        e.printStackTrace();
       }
+    } catch (Exception e) {
+      System.out.println("회원 조회 중 오류 발생!");
+      e.printStackTrace();
     }
+  }
 }
