@@ -25,21 +25,20 @@ public class ProjectDetailCommand implements Command {
       try (ResultSet rs = stmt.executeQuery()) {
         if (rs.next()) {
           StringBuilder members = new StringBuilder();
-          try(PreparedStatement stmt2 = con.prepareStatement(
-               "select member_no, m.name"
-                   + " from pms_member_project mp"
-                   + " inner join pms_member m on mp.member_no=m.no"
-                   + " where mp.project_no=" + rs.getInt("no"));
+          try (PreparedStatement stmt2 = con.prepareStatement(
+              "select mp.member_no, m.name"
+                  + " from pms_member_project mp"
+                  + " inner join pms_member m on mp.member_no=m.no"
+                  + " where mp.project_no=" + rs.getInt("no"));
               ResultSet memberRs = stmt2.executeQuery()) {
 
-           while (memberRs.next()) {
-             if (members.length() > 0) {
-               members.append(",");
-             }
-             members.append(memberRs.getString("name"));
+            while (memberRs.next()) {
+              if (members.length() > 0) {
+                members.append(",");
+              }
+              members.append(memberRs.getString("name"));
             }
           }
-
 
           System.out.printf("프로젝트명: %s\n", rs.getString("title"));
           System.out.printf("내용: %s\n", rs.getString("content"));

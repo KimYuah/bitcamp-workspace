@@ -45,7 +45,7 @@ public class ProjectUpdateCommand implements Command {
           // 관리자 정보를 가져와서 프로젝트 객체에 담는다.
           Member owner = new Member();
           owner.setNo(rs.getInt("owner"));
-          owner.setName(rs.getString("owner"));
+          owner.setName(rs.getString("owner_name"));
           project.setOwner(owner);
 
         } else {
@@ -85,8 +85,7 @@ public class ProjectUpdateCommand implements Command {
       }
     }
 
-
- // 프로젝트에 참여할 회원 정보를 담는다.
+    // 프로젝트에 참여할 회원 정보를 담는다.
     List<Member> members = new ArrayList<>();
     while (true) {
       String name = Prompt.inputString("팀원?(완료: 빈 문자열) ");
@@ -102,7 +101,6 @@ public class ProjectUpdateCommand implements Command {
       }
     }
     project.setMembers(members);
-
 
     String response = Prompt.inputString("정말 변경하시겠습니까?(y/N) ");
     if (!response.equalsIgnoreCase("y")) {
