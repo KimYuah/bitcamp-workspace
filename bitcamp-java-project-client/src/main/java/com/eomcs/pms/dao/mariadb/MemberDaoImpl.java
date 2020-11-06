@@ -156,7 +156,7 @@ public class MemberDaoImpl implements com.eomcs.pms.dao.MemberDao {
       return members;
     }
   }
-  
+
   @Override
   public Member findByEmailPassword(String email, String password) throws Exception {
     try (PreparedStatement stmt = con.prepareStatement(
@@ -183,5 +183,4 @@ public class MemberDaoImpl implements com.eomcs.pms.dao.MemberDao {
       }
     }
   }
-  
 }
