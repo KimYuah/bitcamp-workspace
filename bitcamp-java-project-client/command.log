@@ -1,2 +1,3 @@
-/login
-/board/add
+/project/list
+/project/delete
+/project/list
