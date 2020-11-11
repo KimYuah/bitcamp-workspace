@@ -33,6 +33,7 @@
   <select id="selectBoard1" 
           resultMap="BoardMap" 
           parameterType="int">
+
     select 
       board_id,
       title, 
@@ -40,7 +41,8 @@
       created_date,
       view_count 
     from x_board
-    where board_id > #{ohora}
+    where board_id &lt; #{ohora}
+
   </select>
   
   <!-- selectList(sqlid, String) -->
@@ -71,6 +73,7 @@
       created_date,
       view_count 
     from x_board
+    order by board_id desc
     limit #{startIndex}, #{size}
   </select>
   

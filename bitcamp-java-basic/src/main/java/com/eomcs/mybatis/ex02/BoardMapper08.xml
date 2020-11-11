@@ -5,6 +5,11 @@
   
 <mapper namespace="BoardMapper">
 
+<!--  update SQL을 실행할 때 update 태그 대신에 insert/delete 태그를 사용해도 된다.
+      mybatis 는 SQL을 찾을 id 값으로 찾기 때문이다.
+      그러나유지보수를 위해 가능한 일관된이름을 사용해라.
+      즉, 인서트는 인서트 업데이트는 업데이
+-->
   <insert id="updateBoard" parameterType="Board">
     update x_board set
       title=#{title},

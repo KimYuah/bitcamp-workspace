@@ -23,9 +23,9 @@ public class Exam0211 {
     // 여러 개의 값을 전달해야 한다면,
     // Map 객체에 담아 전달하라!
 
-    // 예) 게시글 제목에 ohora 를 포함한 게시글을 찾는다.
+    // 예) 게시글 제목에 a 를 포함한 게시글을 찾는다.
     List<Board> list = sqlSession.selectList(//
-        "BoardMapper.selectBoard2", "%ohora%");
+        "BoardMapper.selectBoard2", "%a%");
 
     for (Board board : list) {
       System.out.printf("%d, %s, %s, %s\n", //
