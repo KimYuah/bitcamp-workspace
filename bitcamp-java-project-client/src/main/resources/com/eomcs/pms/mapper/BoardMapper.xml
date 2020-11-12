@@ -18,7 +18,6 @@
     </association>
   </resultMap>
 
-
   <select id="findAll" resultMap="BoardMap" parameterType="string">
     select 
       b.no, 
@@ -31,11 +30,11 @@
       pms_board b 
       inner join pms_member m on b.writer=m.no
     <if test="keyword != null">
-    where
+    where 
       b.title like #{keyword}
       or b.content like #{keyword}
       or m.name like #{keyword} 
-      </if>
+    </if>
     order by 
       b.no desc
   </select>

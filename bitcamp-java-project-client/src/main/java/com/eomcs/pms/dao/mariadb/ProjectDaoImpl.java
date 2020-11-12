@@ -25,12 +25,7 @@ public class ProjectDaoImpl implements com.eomcs.pms.dao.ProjectDao {
       int count = sqlSession.insert("ProjectDao.insert", project);
 
       // 프로젝트의 멤버 정보 입력
-      for (Member member : project.getMembers()) {
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("memberNo", member.getNo());
-        map.put("projectNo", project.getNo());
-        sqlSession.insert("ProjectDao.insertMember", map);
-      }
+      sqlSession.insert("ProjectDao.insertMembers", project);
 
       sqlSession.commit();
       return count;
@@ -67,7 +62,7 @@ public class ProjectDaoImpl implements com.eomcs.pms.dao.ProjectDao {
 
   @Override
   public List<Project> findByKeyword(String item, String keyword) throws Exception {
-    HashMap<String, Object> map = new HashMap<>();
+    HashMap<String,Object> map = new HashMap<>();
     map.put("item", item);
     map.put("keyword", keyword);
 
@@ -77,12 +72,11 @@ public class ProjectDaoImpl implements com.eomcs.pms.dao.ProjectDao {
   }
 
   @Override
-  public List<Project> findByDetailKeyword(Map<String, Object> keywords) throws Exception {
+  public List<Project> findByDetailKeyword(Map<String,Object> keywords) throws Exception {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       return sqlSession.selectList("ProjectDao.findByDetailKeyword", keywords);
     }
   }
-
 
   @Override
   public int update(Project project) throws Exception {
@@ -107,5 +101,4 @@ public class ProjectDaoImpl implements com.eomcs.pms.dao.ProjectDao {
       return 1;
     }
   }
-
 }

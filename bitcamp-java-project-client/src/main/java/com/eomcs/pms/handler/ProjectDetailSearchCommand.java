@@ -16,28 +16,26 @@ public class ProjectDetailSearchCommand implements Command {
   }
 
   @Override
-  public void execute(Map<String, Object> context) {
+  public void execute(Map<String,Object> context) {
     System.out.println("[프로젝트 상세 검색]");
 
     try {
-      HashMap<String, Object> keywords = new HashMap<>();
+      HashMap<String,Object> keywords = new HashMap<>();
 
-      String title = Prompt.inputString("프로젝트 명? ");
+      String title = Prompt.inputString("프로젝트명? ");
       if (title.length() > 0) {
-        keywords.put("title",title);
+        keywords.put("title", title);
       }
 
-      String owner = Prompt.inputString("관리자 명? ");
+      String owner = Prompt.inputString("관리자명? ");
       if (owner.length() > 0) {
-        keywords.put("owner",owner);
+        keywords.put("owner", owner);
       }
 
-      String member = Prompt.inputString("팀원 명? ");
+      String member = Prompt.inputString("팀원명? ");
       if (member.length() > 0) {
-        keywords.put("member",member);
+        keywords.put("member", member);
       }
-
-
 
       List<Project> list = projectDao.findByDetailKeyword(keywords);
       System.out.println("번호, 프로젝트명, 시작일 ~ 종료일, 관리자, 팀원");

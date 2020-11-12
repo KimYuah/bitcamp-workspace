@@ -16,13 +16,12 @@ public class ProjectSearchCommand implements Command {
 
   @Override
   public void execute(Map<String,Object> context) {
-    System.out.println("[프로젝트 상세 검색]");
+    System.out.println("[프로젝트 검색]");
 
     try {
       String item = Prompt.inputString(
-          "항목(1:프로젝트명, 2:관리자명, 3:팀원, 그외: 전체)? ");
+          "항목(1:프로젝트명, 2:관리자명, 3:팀원, 그 외: 전체)? ");
       String keyword = Prompt.inputString("검색어? ");
-
 
       List<Project> list = projectDao.findByKeyword(item, keyword);
       System.out.println("번호, 프로젝트명, 시작일 ~ 종료일, 관리자, 팀원");

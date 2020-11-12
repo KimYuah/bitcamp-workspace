@@ -19,12 +19,11 @@ public class BoardSearchCommand implements Command {
     System.out.println("[게시물 검색]");
 
     try {
-      String keyword =Prompt.inputString("검색어? ");
+      String keyword = Prompt.inputString("검색어? ");
 
       System.out.println("번호, 제목, 작성자, 등록일, 조회수");
       List<Board> list = boardDao.findAll("%" + keyword + "%");
       for (Board board : list) {
-
         System.out.printf("%d, %s, %s, %s, %d\n",
             board.getNo(),
             board.getTitle(),
@@ -32,6 +31,7 @@ public class BoardSearchCommand implements Command {
             board.getRegisteredDate(),
             board.getViewCount());
       }
+
 
     } catch (Exception e) {
       System.out.println("게시글 검색 중 오류 발생!");
