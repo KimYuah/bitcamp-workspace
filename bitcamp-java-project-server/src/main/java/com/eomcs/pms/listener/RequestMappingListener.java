@@ -1,10 +1,39 @@
 package com.eomcs.pms.listener;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
+import org.apache.ibatis.io.Resources;
 import com.eomcs.context.ApplicationContextListener;
-import com.eomcs.pms.domain.Member;
 import com.eomcs.pms.handler.BoardAddCommand;
+import com.eomcs.pms.handler.BoardDeleteCommand;
+import com.eomcs.pms.handler.BoardDetailCommand;
 import com.eomcs.pms.handler.BoardListCommand;
+import com.eomcs.pms.handler.BoardSearchCommand;
+import com.eomcs.pms.handler.BoardUpdateCommand;
+import com.eomcs.pms.handler.CalculatorCommand;
+import com.eomcs.pms.handler.Command;
+import com.eomcs.pms.handler.HelloCommand;
+import com.eomcs.pms.handler.LoginCommand;
+import com.eomcs.pms.handler.LogoutCommand;
+import com.eomcs.pms.handler.MemberAddCommand;
+import com.eomcs.pms.handler.MemberDeleteCommand;
+import com.eomcs.pms.handler.MemberDetailCommand;
+import com.eomcs.pms.handler.MemberListCommand;
+import com.eomcs.pms.handler.MemberUpdateCommand;
+import com.eomcs.pms.handler.ProjectAddCommand;
+import com.eomcs.pms.handler.ProjectDeleteCommand;
+import com.eomcs.pms.handler.ProjectDetailCommand;
+import com.eomcs.pms.handler.ProjectDetailSearchCommand;
+import com.eomcs.pms.handler.ProjectListCommand;
+import com.eomcs.pms.handler.ProjectSearchCommand;
+import com.eomcs.pms.handler.ProjectUpdateCommand;
+import com.eomcs.pms.handler.TaskAddCommand;
+import com.eomcs.pms.handler.TaskDeleteCommand;
+import com.eomcs.pms.handler.TaskDetailCommand;
+import com.eomcs.pms.handler.TaskListCommand;
+import com.eomcs.pms.handler.TaskUpdateCommand;
+import com.eomcs.pms.handler.WhoamiCommand;
 import com.eomcs.pms.service.BoardService;
 import com.eomcs.pms.service.MemberService;
 import com.eomcs.pms.service.ProjectService;
@@ -13,7 +42,6 @@ import com.eomcs.pms.service.TaskService;
 // 클라이언트 요청을 처리할 커맨드 객체를 준비한다.
 public class RequestMappingListener implements ApplicationContextListener {
 
-  @SuppressWarnings("unchecked")
   @Override
   public void contextInitialized(Map<String,Object> context) {
     try {
@@ -24,43 +52,71 @@ public class RequestMappingListener implements ApplicationContextListener {
       ProjectService projectService = (ProjectService) context.get("projectService");
       TaskService taskService = (TaskService) context.get("taskService");
 
-      // 테스트 용 로그인 사용자 정보 가져오기
-      Member member = memberService.get("aaa", "1111");
-      context.put("loginUser", member);
+      // 커맨드 클래스가 있는 패키지의 파일 경로를 알아내기
+      File commandPackagePath = Resources.getResourceAsFile("com/eomcs/pms/handler");
+      System.out.println(commandPackagePath.getCanonicalPath());
 
+      // 해당 패키지의 있는 클래스 파일을 찾는다.
+      findClasses(commandPackagePath, "com.eomcs.pms.handler");
+
+      // 테스트 용 로그인 사용자 정보 가져오기
+      //Member member = memberService.get("aaa@test.com", "1111");
+      //context.put("loginUser", member);
+
+      // Command 구현체 생성 및 commandMap 객체 준비
+      Map<String,Command> commandMap = new HashMap<>();
 
       // 클라이언트의 요청을 처리할 커맨드 객체를 생성한다.
-      context.put("/board/add", new BoardAddCommand(boardService));
-      context.put("/board/list", new BoardListCommand(boardService));
-      //    context.put("/board/detail", new BoardDetailCommand(boardList));
-      //    context.put("/board/update", new BoardUpdateCommand(boardList));
-      //    context.put("/board/delete", new BoardDeleteCommand(boardList));
-      //
-      //    MemberListCommand memberListCommand = new MemberListCommand(memberList);
-      //    context.put("/member/add", new MemberAddCommand(memberList));
-      //    context.put("/member/list", memberListCommand);
-      //    context.put("/member/detail", new MemberDetailCommand(memberList));
-      //    context.put("/member/update", new MemberUpdateCommand(memberList));
-      //    context.put("/member/delete", new MemberDeleteCommand(memberList));
-      //
-      //    context.put("/project/add", new ProjectAddCommand(projectList, memberListCommand));
-      //    context.put("/project/list", new ProjectListCommand(projectList));
-      //    context.put("/project/detail", new ProjectDetailCommand(projectList));
-      //    context.put("/project/update", new ProjectUpdateCommand(projectList, memberListCommand));
-      //    context.put("/project/delete", new ProjectDeleteCommand(projectList));
-      //
-      //    context.put("/task/add", new TaskAddCommand(taskList, memberListCommand));
-      //    context.put("/task/list", new TaskListCommand(taskList));
-      //    context.put("/task/detail", new TaskDetailCommand(taskList));
-      //    context.put("/task/update", new TaskUpdateCommand(taskList, memberListCommand));
-      //    context.put("/task/delete", new TaskDeleteCommand(taskList));
-      //
-      //    context.put("/hello", new HelloCommand());
-      //
-      //    context.put("/calc", new CalculatorCommand());
+      commandMap.put("/board/add", new BoardAddCommand(boardService));
+      commandMap.put("/board/list", new BoardListCommand(boardService));
+      commandMap.put("/board/detail", new BoardDetailCommand(boardService));
+      commandMap.put("/board/update", new BoardUpdateCommand(boardService));
+      commandMap.put("/board/delete", new BoardDeleteCommand(boardService));
+      commandMap.put("/board/search", new BoardSearchCommand(boardService));
+
+      commandMap.put("/member/add", new MemberAddCommand(memberService));
+      commandMap.put("/member/list", new MemberListCommand(memberService));
+      commandMap.put("/member/detail", new MemberDetailCommand(memberService));
+      commandMap.put("/member/update", new MemberUpdateCommand(memberService));
+      commandMap.put("/member/delete", new MemberDeleteCommand(memberService));
+
+      commandMap.put("/project/add", new ProjectAddCommand(projectService, memberService));
+      commandMap.put("/project/list", new ProjectListCommand(projectService));
+      commandMap.put("/project/detail", new ProjectDetailCommand(projectService, taskService));
+      commandMap.put("/project/update", new ProjectUpdateCommand(projectService));
+      commandMap.put("/project/delete", new ProjectDeleteCommand(projectService));
+      commandMap.put("/project/search", new ProjectSearchCommand(projectService));
+      commandMap.put("/project/detailSearch", new ProjectDetailSearchCommand(projectService));
+
+      commandMap.put("/task/add", new TaskAddCommand(taskService, projectService, memberService));
+      commandMap.put("/task/list", new TaskListCommand(taskService));
+      commandMap.put("/task/detail", new TaskDetailCommand(taskService));
+      commandMap.put("/task/update", new TaskUpdateCommand(taskService, projectService, memberService));
+      commandMap.put("/task/delete", new TaskDeleteCommand(taskService));
+
+      commandMap.put("/login", new LoginCommand(memberService));
+      commandMap.put("/logout", new LogoutCommand());
+      commandMap.put("/whoami", new WhoamiCommand());
+
+      commandMap.put("/hello", new HelloCommand());
+      commandMap.put("/calc", new CalculatorCommand());
+
+      // 커맨드 객체만 모아 놓은 상자를 context 맵이라는 큰 상자에 담는다.
+      context.put("commandMap", commandMap);
+
     } catch (Exception e) {
       System.out.println("서비스 객체를 준비하는 중에 오류 발생!");
       e.printStackTrace();
+    }
+  }
+
+  private void findClasses(File packagePath, String packageName) {
+    File[] files = packagePath.listFiles((dir, name) -> name.endsWith(".class"));
+
+    for (File f : files) {
+      System.out.printf("%s.%s\n",
+          packageName,
+          f.getName().replace(".class", ""));
     }
   }
 

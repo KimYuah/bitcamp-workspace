@@ -1,27 +1,30 @@
 package com.eomcs.pms.handler;
 
+import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.List;
 import com.eomcs.pms.domain.Board;
 import com.eomcs.pms.service.BoardService;
+import com.eomcs.util.Prompt;
 
-public class BoardListCommand implements Command {
+public class BoardSearchCommand implements Command {
 
   BoardService boardService;
 
-  public BoardListCommand(BoardService boardService) {
+  public BoardSearchCommand(BoardService boardService) {
     this.boardService = boardService;
   }
-
 
   @Override
   public void execute(Request request) {
     PrintWriter out = request.getWriter();
+    BufferedReader in = request.getReader();
 
     try {
-      out.println("[게시물 목록]");
+      out.println("[게시물 검색]");
+      String keyword = Prompt.inputString("검색어? ", out, in);
 
-      List<Board> list = boardService.list();
+      List<Board> list = boardService.list(keyword);
 
       out.println("번호, 제목, 작성자, 등록일, 조회수");
 
