@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.PrintWriter;
 import com.eomcs.util.Prompt;
 
+@CommandAnno("/calculator")
 // Command 규칙에 따라 클래스를 정의한다.
 public class CalculatorCommand implements Command {
 
