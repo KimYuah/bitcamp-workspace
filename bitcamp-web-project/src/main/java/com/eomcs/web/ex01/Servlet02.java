@@ -29,4 +29,3 @@ public class Servlet02 extends GenericServlet {
   }
 }
 
-
