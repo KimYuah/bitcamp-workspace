@@ -39,6 +39,7 @@ public class BoardListServlet extends HttpServlet {
 
 
       List<Board> list = boardService.list();
+
       out.println("<table border='1'>");
       out.println("<thead><tr>" // table row
           + "<th>번호</th>" // table header
@@ -47,8 +48,8 @@ public class BoardListServlet extends HttpServlet {
           + "<th>등록일</th>"
           + "<th>조회수</th>"
           + "</tr></thead>");
-
       out.println("<tbody>");
+
       for (Board board : list) {
         out.printf("<tr>"
             + "<td>%d</td>"
@@ -67,13 +68,15 @@ public class BoardListServlet extends HttpServlet {
       out.println("</table>");
 
     } catch (Exception e) {
-      out.printf("<p>작업 처리 중 오류 발생! - %s</p>\n", e.getMessage());
+      out.println("<h2>작업 처리 중 오류 발생!</h2>");
+      out.printf("<pre>%s</pre>\n", e.getMessage());
 
       StringWriter errOut = new StringWriter();
       e.printStackTrace(new PrintWriter(errOut));
-
+      out.println("<h3>상세 오류 내용</h3>");
       out.printf("<pre>%s</pre>\n", errOut.toString());
     }
+
     out.println("</body>");
     out.println("</html>");
   }

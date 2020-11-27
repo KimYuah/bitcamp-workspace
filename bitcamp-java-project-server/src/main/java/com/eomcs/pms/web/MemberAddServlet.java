@@ -3,38 +3,54 @@ package com.eomcs.pms.web;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.UUID;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import com.eomcs.pms.domain.Board;
+import javax.servlet.http.Part;
 import com.eomcs.pms.domain.Member;
-import com.eomcs.pms.service.BoardService;
+import com.eomcs.pms.service.MemberService;
 
-@WebServlet("/board/add")
-public class BoardAddServlet extends HttpServlet {
+@MultipartConfig(maxFileSize = 1024 * 1024 * 10)
+@WebServlet("/member/add")
+public class MemberAddServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
+
     ServletContext ctx = request.getServletContext();
-    BoardService boardService =
-        (BoardService) ctx.getAttribute("boardService");
+    MemberService memberService = (MemberService) ctx.getAttribute("memberService");
 
     // 클라이언트가 POST 요청할 때 보낸 데이터를 읽는다.
     request.setCharacterEncoding("UTF-8");
 
-    Board board = new Board();
-    board.setTitle(request.getParameter("title"));
-    board.setContent(request.getParameter("content"));
+    Member member = new Member();
+    member.setName(request.getParameter("name"));
+    member.setEmail(request.getParameter("email"));
+    member.setPassword(request.getParameter("password"));
+    member.setTel(request.getParameter("tel"));
 
-    // 회원 정보가 들어있는 세션 객체를 얻는다.
-    HttpSession session = request.getSession();
+    // <input type="file"...> 입력 값 꺼내기
+    Part photoPart = request.getPart("photo");
+
+    // 회원 사진을 저장할 위치를 알아낸다.
+    // => 컨텍스트루트/upload/파일
+    // => 파일을 저장할 때 사용할 파일명을 준비한다.
+    String filename = UUID.randomUUID().toString();
+    String saveFilePath = ctx.getRealPath("/upload/" + filename);
+
+    // 해당 위치에 업로드된 사진 파일을 저장한다.
+    photoPart.write(saveFilePath);
+
+    // DB에 사진 파일 이름을 저장하기 위해 객체에 보관한다.
+    member.setPhoto(filename);
 
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
@@ -43,18 +59,13 @@ public class BoardAddServlet extends HttpServlet {
     out.println("<html>");
     out.println("<head>");
     out.println("<meta http-equiv='Refresh' content='1;url=list'>");
-    out.println("<title>게시글등록</title></head>");
+    out.println("<title>회원 등록</title></head>");
     out.println("<body>");
     try {
-      out.println("<h1>게시물 등록</h1>");
+      out.println("<h1>회원 등록</h1>");
+      memberService.add(member);
 
-      Member loginUser = (Member) session.getAttribute("loginUser");
-
-      board.setWriter(loginUser);
-
-      boardService.add(board);
-
-      out.println("게시글을 등록하였습니다.");
+      out.println("<p>회원을 등록하였습니다.</p>");
 
     } catch (Exception e) {
       out.println("<h2>작업 처리 중 오류 발생!</h2>");

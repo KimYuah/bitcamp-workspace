@@ -45,19 +45,29 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
         out.println("해당 번호의 게시글이 없습니다.");
         return;
       }
-
-      out.printf("제목: %s<br>\n", board.getTitle());
-      out.printf("내용: %s<br>\n", board.getContent());
+      out.println("<form action='update' method='post'>");
+      out.printf("번호: <input type='text' name='title' value='%d' readonly><br>\n",
+          board.getNo());
+      out.printf("제목: <input type='text' name='title' value='%s'><br>\n",
+          board.getTitle());
+      out.printf("내용: <textarea name='content'>%s</textarea><br>\n",
+          board.getContent());
       out.printf("작성자: %s<br>\n", board.getWriter().getName());
       out.printf("등록일: %s<br>\n", board.getRegisteredDate());
       out.printf("조회수: %d<br>\n", board.getViewCount());
+      out.println("<p>");
+      out.println("<button>변경</button>");
+      out.printf("<a href='delete?no=%d'>삭제</a>", board.getNo());
+      out.println("</p>");
+      out.println("</form>");
 
     } catch (Exception e) {
-      out.printf("<p>작업 처리 중 오류 발생! - %s</p>\n", e.getMessage());
+      out.println("<h2>작업 처리 중 오류 발생!</h2>");
+      out.printf("<pre>%s</pre>\n", e.getMessage());
 
       StringWriter errOut = new StringWriter();
       e.printStackTrace(new PrintWriter(errOut));
-
+      out.println("<h3>상세 오류 내용</h3>");
       out.printf("<pre>%s</pre>\n", errOut.toString());
     }
 
