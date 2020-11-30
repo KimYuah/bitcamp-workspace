@@ -14,23 +14,21 @@ import com.eomcs.pms.service.BoardService;
 
 @WebServlet("/board/detail")
 public class BoardDetailServlet extends HttpServlet {
-
   private static final long serialVersionUID = 1L;
 
-@Override
-protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
 
-  ServletContext ctx = request.getServletContext();
-  BoardService boardService =
-      (BoardService) ctx.getAttribute("boardService");
+    ServletContext ctx = request.getServletContext();
+    BoardService boardService =
+        (BoardService) ctx.getAttribute("boardService");
 
     // 웹주소에 동봉된 데이터(Query String: qs)를 읽는다.
     int no = Integer.parseInt(request.getParameter("no"));
 
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
-
 
     out.println("<!DOCTYPE html>");
     out.println("<html>");
@@ -46,7 +44,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
         return;
       }
       out.println("<form action='update' method='post'>");
-      out.printf("번호: <input type='text' name='title' value='%d' readonly><br>\n",
+      out.printf("번호: <input type='text' name='no' value='%d' readonly><br>\n",
           board.getNo());
       out.printf("제목: <input type='text' name='title' value='%s'><br>\n",
           board.getTitle());
@@ -57,7 +55,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
       out.printf("조회수: %d<br>\n", board.getViewCount());
       out.println("<p>");
       out.println("<button>변경</button>");
-      out.printf("<a href='delete?no=%d'>삭제</a>", board.getNo());
+      out.printf("<a href='delete?no=%d'>삭제</a>\n", board.getNo());
       out.println("</p>");
       out.println("</form>");
 

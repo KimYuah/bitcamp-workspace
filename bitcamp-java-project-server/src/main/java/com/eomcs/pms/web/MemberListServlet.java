@@ -17,25 +17,25 @@ import com.eomcs.pms.service.MemberService;
 public class MemberListServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
 
-      ServletContext ctx = request.getServletContext();
-      MemberService memberService =
-          (MemberService) ctx.getAttribute("memberService");
+    ServletContext ctx = request.getServletContext();
+    MemberService memberService =
+        (MemberService) ctx.getAttribute("memberService");
 
-      response.setContentType("text/html;charset=UTF-8");
-      PrintWriter out = response.getWriter();
+    response.setContentType("text/html;charset=UTF-8");
+    PrintWriter out = response.getWriter();
 
-      out.println("<!DOCTYPE html>");
-      out.println("<html>");
-      out.println("<head><title>회원 목록</title></head>");
-      out.println("<body>");
-      try {
-        out.println("<h1>회원 목록</h1>");
+    out.println("<!DOCTYPE html>");
+    out.println("<html>");
+    out.println("<head><title>회원목록</title></head>");
+    out.println("<body>");
+    try {
+      out.println("<h1>회원 목록</h1>");
 
-        out.println("<a href='form.html'>새 회원</a><br>");
+      out.println("<a href='form.html'>새 회원</a><br>");
 
       List<Member> list = memberService.list();
 
@@ -47,6 +47,7 @@ public class MemberListServlet extends HttpServlet {
           + "<th>전화</th>"
           + "<th>등록일</th>"
           + "</tr></thead>");
+
       out.println("<tbody>");
 
       for (Member member : list) {
@@ -67,18 +68,17 @@ public class MemberListServlet extends HttpServlet {
       out.println("</tbody>");
       out.println("</table>");
 
-      } catch (Exception e) {
-        out.println("<h2>작업 처리 중 오류 발생!</h2>");
-        out.printf("<pre>%s</pre>\n", e.getMessage());
+    } catch (Exception e) {
+      out.println("<h2>작업 처리 중 오류 발생!</h2>");
+      out.printf("<pre>%s</pre>\n", e.getMessage());
 
-        StringWriter errOut = new StringWriter();
-        e.printStackTrace(new PrintWriter(errOut));
-        out.println("<h3>상세 오류 내용</h3>");
-        out.printf("<pre>%s</pre>\n", errOut.toString());
-      }
+      StringWriter errOut = new StringWriter();
+      e.printStackTrace(new PrintWriter(errOut));
+      out.println("<h3>상세 오류 내용</h3>");
+      out.printf("<pre>%s</pre>\n", errOut.toString());
+    }
 
-      out.println("</body>");
-      out.println("</html>");
+    out.println("</body>");
+    out.println("</html>");
   }
 }
-

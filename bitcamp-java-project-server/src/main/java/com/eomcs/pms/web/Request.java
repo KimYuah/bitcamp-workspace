@@ -16,7 +16,8 @@ public class Request {
       Map<String,Object> context,
       PrintWriter out,
       BufferedReader in,
-      String sessionId ) {
+      String sessionId) {
+
     this.commandPath = commandPath;
     this.context = context;
     this.out = out;
@@ -41,8 +42,8 @@ public class Request {
   }
 
   @SuppressWarnings("unchecked")
-  public Map<String, Object> getSession() {
-    return (Map<String, Object>) context.get(sessionId);
+  public Map<String,Object> getSession() {
+    return (Map<String,Object>) context.get(sessionId);
   }
 
   public void invalidateSession() {

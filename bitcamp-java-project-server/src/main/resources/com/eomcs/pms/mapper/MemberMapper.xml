@@ -19,7 +19,7 @@
       no, 
       name, 
       email, 
-      tel, 
+      tel,
       photo,
       cdt
     from 

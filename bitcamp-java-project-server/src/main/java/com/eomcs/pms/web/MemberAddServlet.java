@@ -24,12 +24,12 @@ public class MemberAddServlet extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
-
     ServletContext ctx = request.getServletContext();
-    MemberService memberService = (MemberService) ctx.getAttribute("memberService");
+    MemberService memberService =
+        (MemberService) ctx.getAttribute("memberService");
 
     // 클라이언트가 POST 요청할 때 보낸 데이터를 읽는다.
-    request.setCharacterEncoding("UTF-8");
+    //request.setCharacterEncoding("UTF-8");
 
     Member member = new Member();
     member.setName(request.getParameter("name"));
@@ -59,10 +59,12 @@ public class MemberAddServlet extends HttpServlet {
     out.println("<html>");
     out.println("<head>");
     out.println("<meta http-equiv='Refresh' content='1;url=list'>");
-    out.println("<title>회원 등록</title></head>");
+    out.println("<title>회원등록</title></head>");
     out.println("<body>");
+
     try {
       out.println("<h1>회원 등록</h1>");
+
       memberService.add(member);
 
       out.println("<p>회원을 등록하였습니다.</p>");

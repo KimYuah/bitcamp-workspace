@@ -1,4 +1,3 @@
-// 필터 초기화 파라미터 : web.xml에서 설정한 값 가져오기
 package com.eomcs.web.ex06;
 
 import java.io.IOException;
@@ -16,6 +15,7 @@ public class Filter01 implements Filter {
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
     this.filterConfig = filterConfig;
+    System.out.println("ex06.Filter01.init()");
   }
 
   @Override
@@ -27,6 +27,9 @@ public class Filter01 implements Filter {
 
     chain.doFilter(request, response);
   }
+
+  @Override
+  public void destroy() {
+    System.out.println("ex06.Filter01.destroy()");
+  }
 }
-
-
