@@ -5,7 +5,7 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
-// 서블릿이 사용할 값을 DD 설정으로 지정할 수 있다.
+ //서블릿이 사용할 값을 DD 설정으로 지정할 수 있다.
 //
 //@WebServlet(//
 //    value = "/ex06/s3",
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 //        @WebInitParam(name = "jdbc.url", value = "jdbc:mariadb://localhost/studydb"),
 //        @WebInitParam(name = "jdbc.username", value = "study"),
 //        @WebInitParam(name = "jdbc.password", value = "1111")})
-//@SuppressWarnings("serial")
+@SuppressWarnings("serial")
 public class Servlet03 extends HttpServlet {
 
   // @Override
@@ -27,6 +27,7 @@ public class Servlet03 extends HttpServlet {
   // // 나중에 getServletConfig()가 호출될 때 리턴하도록 코드를 작성해야 한다.
   // // 이런 작업이 번거롭다.
   // //
+
   // // 이런 불편함을 없애기 위해서 GenericServlet은
   // // 미리 이 메서드에 해당 코드를 작성해 두었다.
   // // 그리고 추가적으로 파라미터 값을 받지 않는 init()를 호출하도록
