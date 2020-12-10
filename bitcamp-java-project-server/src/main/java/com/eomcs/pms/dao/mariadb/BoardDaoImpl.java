@@ -9,7 +9,7 @@ import com.eomcs.pms.domain.Board;
 // => SqlSessionFactory를 자체적으로 생성하지 않고
 //    생성자를 통해 외부에서 주입 받는다.(Dependency Injection: DI)
 //
-public class BoardDaoImpl implements com.eomcs.pms.dao.BoardDao {
+public class BoardDaoImpl implements com.eomcs.pms.dao.BoardDao{
 
   SqlSessionFactory sqlSessionFactory;
 

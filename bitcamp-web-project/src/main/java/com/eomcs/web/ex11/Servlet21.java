@@ -21,6 +21,8 @@ public class Servlet21 extends HttpServlet {
     HttpSession session = request.getSession();
 
     // 세션의 유효 시간(초)을 설정한다.
+    // => 10초 이내에 클라이언트의 요청이 없으면
+    //    10초를 초과하는 순간 HttpSession 객체를 무효화시킨다.
     session.setMaxInactiveInterval(10);
 
     session.setAttribute("v1", "aaa");
